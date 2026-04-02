@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.DS_Store
+# Якщо не хочеш, щоб твої реальні витрати були публічними:
+balances.json
+history.csv

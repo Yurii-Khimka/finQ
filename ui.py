@@ -1,0 +1,98 @@
+class FinanceUI:
+    @staticmethod
+    def display_summary(balances, usd_rate=None, eur_rate=None, last_transactions=None):
+        def conv(val, rate): return val / rate if rate else 0
+
+        print("\n" + "=" * 78)
+        print(f"{'ENVELOPE':<18} | {'UAH':>14} | {'USD':>12} | {'EUR':>12}")
+        print("-" * 78)
+
+        keys = [("Mandatory", "mandatory"), ("Non-Mandatory", "non_mandatory"), 
+                ("Investments", "investments"), ("Dreams", "dreams")]
+
+        for label, key in keys:
+            val = balances.get(key, 0)
+            print(f"{label:<18} | {val:>14.2f} | {conv(val, usd_rate):>12.2f} | {conv(val, eur_rate):>12.2f}")
+
+        total = sum(balances.values())
+        spendable = balances.get("mandatory", 0) + balances.get("non_mandatory", 0)
+
+        print("-" * 78)
+        print(f"{'TOTAL ACCOUNT':<18} | {total:>14.2f} | {conv(total, usd_rate):>12.2f} | {conv(total, eur_rate):>12.2f}")
+        print(f"{'SPENDABLE NOW':<18} | {spendable:>14.2f} | {conv(spendable, usd_rate):>12.2f} | {conv(spendable, eur_rate):>12.2f}")
+        print("=" * 78)
+
+        if last_transactions:
+            print("\n🕒 RECENT ACTIVITY:")
+            print(f"{'DATE':<16} | {'AMOUNT':<15} | {'CATEGORY':<15} | {'ENVELOPE'}")
+            print("-" * 78)
+            for t in reversed(last_transactions):
+                if len(t) < 5: continue
+                print(f"{t[0]:<16} | {t[3]:<15} | {t[2]:<15} | {t[4]}")
+        print("\n")
+
+    @staticmethod
+    def display_stats(stats):
+        """Звіт 'fq cs' у стилі головного дашборду з пунктирними лініями."""
+        print("\n📊 MONTHLY CATEGORY SUMMARY")
+        
+        for env_key in ["mandatory", "non_mandatory"]:
+            data = stats[env_key]
+            if not data["cats"]: continue
+            
+            title = env_key.upper().replace("_", "-")
+            print("\n" + "-" * 55)
+            print(f"📂 {title}")
+            print("-" * 55)
+            
+            # Сортування: дорожчі категорії зверху
+            sorted_cats = sorted(data["cats"].items(), key=lambda x: x[1], reverse=True)
+            for cat, amt in sorted_cats:
+                print(f"{cat:<25} | {amt:>18.2f} UAH")
+            
+            print("-" * 55)
+            print(f"{'TOTAL ' + title:<25} | {data['total']:>18.2f} UAH")
+            print("-" * 55)
+        print("\n")
+
+    @staticmethod
+    def display_daily_budget(mand, non_mand, days, usd, eur):
+        def conv(val, rate): return val / rate if rate else 0
+        d_mand, d_non = mand / days, non_mand / days
+        d_total = (mand + non_mand) / days
+
+        print("\n" + f"📅 DAILY LIMITS (For {days} days)")
+        print("-" * 65)
+        print(f"{'TYPE':<18} | {'UAH':>14} | {'USD':>12} | {'EUR':>12}")
+        print("-" * 65)
+        print(f"{'Mandatory':<18} | {d_mand:>14.2f} | {conv(d_mand, usd):>12.2f} | {conv(d_mand, eur):>12.2f}")
+        print(f"{'Non-Mandatory':<18} | {d_non:>14.2f} | {conv(d_non, usd):>12.2f} | {conv(d_non, eur):>12.2f}")
+        print("-" * 65)
+        print(f"{'DAILY TOTAL':<18} | {d_total:>14.2f} | {conv(d_total, usd):>12.2f} | {conv(d_total, eur):>12.2f}")
+        print("-" * 65 + "\n")
+
+    @staticmethod
+    def display_categories(categories):
+        print("\n" + "-" * 50)
+        print(f"{'CATEGORY':<25} | {'ENVELOPE'}")
+        print("-" * 50)
+        for cat, env in sorted(categories.items()):
+            print(f"{cat:<25} | {env}")
+        print("-" * 50 + "\n")
+
+    @staticmethod
+    def show_error(msg): print(f"❌ ERROR: {msg}")
+
+    @staticmethod
+    def display_help():
+        print("\n" + "=" * 70)
+        print("📖 finQ PROFESSIONAL TERMINAL GUIDE")
+        print("=" * 70)
+        print(f"{'fq':<22} - 📊 View Dashboard & Rates")
+        print(f"{'fq cs':<22} - 📈 Monthly Category Stats")
+        print(f"{'fq ac':<22} - 📂 List Categories")
+        print(f"{'fq db <days>':<22} - 📅 Calculate Daily Budget")
+        print(f"{'fq b <cat> <amt>':<22} - 💸 Record Expense")
+        print(f"{'fq e <amt> [flags]':<22} - 💰 Record Income")
+        print(f"{'fq s <total>':<22} - ⚖️  Sync Balance")
+        print("=" * 70 + "\n")
