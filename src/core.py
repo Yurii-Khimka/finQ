@@ -106,7 +106,7 @@ class FinanceManager:
         with open(self.history_path, 'a', newline='', encoding='utf-8') as f:
             csv.writer(f).writerow([t_id, datetime.now().strftime("%Y-%m-%d %H:%M"), t, cat, amt_str, env])
 
-    def get_last_transactions(self, n=10):
+    def get_last_transactions(self, n=5):
         if not os.path.exists(self.history_path): 
             return []
             
