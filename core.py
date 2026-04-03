@@ -90,7 +90,7 @@ class FinanceManager:
             reader = csv.reader(f)
             for row in reader:
                 if not row or len(row) < 5: continue
-                date, t_type, cat, amt_str, env = row
+                t_id, date, t_type, cat, amt_str, env = row
                 if t_type == "EXPENSE" and date.startswith(current_month):
                     try:
                         val = float(amt_str.replace("UAH", "").strip())
@@ -102,10 +102,15 @@ class FinanceManager:
         return stats
 
     def _log_transaction(self, t, cat, amt_str, env):
+        t_id = str(uuid.uuid4())[:8] 
         with open(self.history_path, 'a', newline='', encoding='utf-8') as f:
-            csv.writer(f).writerow([datetime.now().strftime("%Y-%m-%d %H:%M"), t, cat, amt_str, env])
+            csv.writer(f).writerow([t_id, datetime.now().strftime("%Y-%m-%d %H:%M"), t, cat, amt_str, env])
 
-    def get_last_transactions(self, n=7):
-        if not os.path.exists(self.history_path): return []
+    def get_last_transactions(self, n=10):
+        if not os.path.exists(self.history_path): 
+            return []
+            
         with open(self.history_path, 'r', encoding='utf-8') as f:
-            return list(csv.reader(f))[-n:]
+            reader = csv.reader(f)
+            transactions = [row for row in reader if row]
+            return transactions[-n:]
