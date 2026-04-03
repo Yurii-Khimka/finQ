@@ -7,11 +7,11 @@ import uuid
 from datetime import datetime
 
 class FinanceManager:
-    def __init__(self, base_dir):
-        self.base_dir = base_dir
-        self.balances_path = os.path.join(base_dir, "balances.json")
-        self.categories_path = os.path.join(base_dir, "categories.json")
-        self.history_path = os.path.join(base_dir, "history.csv")
+    def __init__(self, data_dir):
+        self.data_dir = data_dir
+        self.balances_path = os.path.join(data_dir, "balances.json")
+        self.categories_path = os.path.join(data_dir, "categories.json")
+        self.history_path = os.path.join(data_dir, "history.csv")
 
         self.income_rules = {
             "mandatory": 0.50,

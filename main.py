@@ -1,11 +1,12 @@
 import sys
 import os
-from core import FinanceManager
-from ui import FinanceUI
+from src.core import FinanceManager
+from src.ui import FinanceUI
 
 def main():
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    manager = FinanceManager(base_dir)
+    data_dir = os.path.join(base_dir, "data")
+    manager = FinanceManager(data_dir)
     ui = FinanceUI()
 
     def get_rates():
