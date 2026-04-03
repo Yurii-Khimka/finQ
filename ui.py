@@ -85,14 +85,23 @@ class FinanceUI:
 
     @staticmethod
     def display_help():
-        print("\n" + "=" * 70)
+        print("\n" + "=" * 75)
         print("📖 finQ PROFESSIONAL TERMINAL GUIDE")
-        print("=" * 70)
-        print(f"{'fq':<22} - 📊 View Dashboard & Rates")
-        print(f"{'fq cs':<22} - 📈 Monthly Category Stats")
+        print("=" * 75)
+        print(f"{'fq':<22} - 📊 View Dashboard & NBU Rates")
+        print(f"{'fq cs':<22} - 📈 Monthly Category Stats (Expenses)")
         print(f"{'fq ac':<22} - 📂 List Categories")
         print(f"{'fq db <days>':<22} - 📅 Calculate Daily Budget")
-        print(f"{'fq b <cat> <amt>':<22} - 💸 Record Expense")
-        print(f"{'fq e <amt> [flags]':<22} - 💰 Record Income")
-        print(f"{'fq s <total>':<22} - ⚖️  Sync Balance")
-        print("=" * 70 + "\n")
+        print(f"{'fq b <cat> <amt>':<22} - 💸 Record Expense (e.g., fq b taxi 80)")
+        print(f"{'fq e <amt> [flags]':<22} - 💰 Record Income (flags: usd, eur, salary)")
+        print(f"{'fq undo':<22} - ⏪ Rollback last transaction")
+        
+        print("\n💡 EXAMPLES & USE CASES:")
+        print("-" * 75)
+        print("1. Received Salary in USD:     fq e 1500 usd salary")
+        print("2. Normal Income in UAH:      fq e 20000")
+        print("3. Bought Coffee:             fq b food 65")
+        print("4. Check what I can spend:    fq db 10 (budget for 10 days)")
+        
+        print("\n⚠️  PRO TIP: Use 'salary' flag to flush old 'Non-Mandatory' leftovers.")
+        print("=" * 75 + "\n")
