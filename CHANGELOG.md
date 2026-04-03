@@ -1,3 +1,8 @@
+## [1.1.2] - 2026-04-03
+### Added
+- `rm <id>` command: Delete any transaction by ID with automatic balance restoration.
+- Help guide updated with the new remove command.
+
 ## [1.1.1] - 2026-04-03
 ### Changed
 - Complete project restructuring (Logic moved to `src/`, data to `data/`).
