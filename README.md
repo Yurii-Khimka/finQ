@@ -22,13 +22,14 @@ Every income entry is automatically split into four strategic "envelopes":
 - `fq e <amt> [flags]` — Income logging with auto-conversion (NBU API) and distribution.
 - `fq s <total>` — Account synchronization (manual balance adjustment).
 - `fq db <days>` — Daily budget calculation for the remaining period.
+- `fq rm <id>` — 🗑️ Remove transaction by ID and restore balance.
 
 ---
 
 ## 🗺 Roadmap
 
 ### Phase 1: Advanced Management
-- [ ] **Transaction Control:** Delete/Edit by ID.
+- [x] **Transaction Control:** Delete/Edit by ID.
 - [ ] **Reporting:** Monthly/Yearly summaries and PDF/CSV exports.
 - [ ] **Analytics:** Spend anomaly detection and "Runway" forecasting.
 
