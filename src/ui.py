@@ -110,10 +110,11 @@ class FinanceUI:
         
         print("\n💡 EXAMPLES & USE CASES:")
         print("-" * 75)
-        print("1. Received Salary in USD:    fq e 1500 usd salary")
-        print("2. Normal Income in UAH:      fq e 20000")
+        print("1. Salary (USD):              fq e 1500 usd salary (flushes leftovers & refills envelopes)")
+        print("2. Extra Income (UAH):        fq e 20000 (adds to current balances without flushing)")
         print("3. Bought Coffee:             fq b food 65")
         print("4. Check what I can spend:    fq db 10 (budget for 10 days)")
+        print("5. Delete transaction:        fq rm <id> (removes record and restores balance)")
         
         print("\n⚠️  PRO TIP: Use 'salary' flag to flush old 'Non-Mandatory' leftovers.")
         print("=" * 75 + "\n")
