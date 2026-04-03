@@ -3,6 +3,7 @@ import csv
 import os
 import urllib.request
 import ssl
+import uuid
 from datetime import datetime
 
 class FinanceManager:

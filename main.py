@@ -4,7 +4,7 @@ from core import FinanceManager
 from ui import FinanceUI
 
 def main():
-    base_dir = "/Users/yuriikhimka/Documents/python/apps/finQ"
+    base_dir = os.path.dirname(os.path.abspath(__file__))
     manager = FinanceManager(base_dir)
     ui = FinanceUI()
 

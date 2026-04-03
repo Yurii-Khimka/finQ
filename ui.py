@@ -94,7 +94,6 @@ class FinanceUI:
         print(f"{'fq db <days>':<22} - 📅 Calculate Daily Budget")
         print(f"{'fq b <cat> <amt>':<22} - 💸 Record Expense (e.g., fq b taxi 80)")
         print(f"{'fq e <amt> [flags]':<22} - 💰 Record Income (flags: usd, eur, salary)")
-        print(f"{'fq undo':<22} - ⏪ Rollback last transaction")
         
         print("\n💡 EXAMPLES & USE CASES:")
         print("-" * 75)
