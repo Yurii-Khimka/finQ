@@ -24,12 +24,24 @@ class FinanceUI:
 
         if last_transactions:
             print("\n🕒 RECENT ACTIVITY:")
-            print(f"{'DATE':<16} | {'AMOUNT':<15} | {'CATEGORY':<15} | {'ENVELOPE'}")
-            print("-" * 78)
-            for t in reversed(last_transactions):
-                if len(t) < 5: continue
-                print(f"{t[0]:<16} | {t[3]:<15} | {t[2]:<15} | {t[4]}")
-        print("\n")
+            print("\n" + "-" * 82)
+            print(f"{'ID':<9} | {'DATE':<16} | {'TYPE':<8} | {'CAT':<16} | {'AMOUNT':>12}")
+            print("-" * 82)
+            
+            for row in last_transactions:
+                # Тепер ми очікуємо 6 колонок: id, date, type, cat, amount, env
+                if len(row) >= 5:
+                    # Розпаковуємо з урахуванням того, що ID тепер перший
+                    t_id = row[0]
+                    date = row[1]
+                    t_type = row[2]
+                    cat = row[3]
+                    amt_str = row[4]
+                    
+                    # Вирівнюємо колонки: ID(9), DATE(16), TYPE(8), CAT(12), AMOUNT(12)
+                    print(f"{t_id:<9} | {date:<16} | {t_type:<8} | {cat:<16} | {amt_str:>12}")
+            
+            print("-" * 82 + "\n")
 
     @staticmethod
     def display_stats(stats):
