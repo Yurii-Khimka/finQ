@@ -28,18 +28,35 @@ Every income entry is automatically split into four strategic "envelopes":
 
 ## 🗺 Roadmap
 
-### Phase 1: Advanced Management
-- [x] **Transaction Control:** Delete/Edit by ID.
-- [ ] **Reporting:** Monthly/Yearly summaries and PDF/CSV exports.
-- [ ] **Analytics:** Spend anomaly detection and "Runway" forecasting.
+### 🟢 Phase 1: Foundation (Completed)
+- [x] **Core Architecture:** Modular structure with separate logic (`src/`), data (`data/`), and entry point (`main.py`).
+- [x] **ID System:** Implementation of unique 8-character IDs for every transaction to ensure data integrity.
+- [x] **Transaction Control:** Robust `rm <id>` command with automatic balance restoration and CSV cleanup.
+- [x] **Currency Support:** Live NBU API integration for seamless USD/EUR to UAH conversion.
+- [x] **Zero-Based Budgeting:** Advanced "Salary" logic with automated leftover flushing (50/30/10/10 distribution).
 
-### Phase 2: UX & Onboarding
-- [ ] **Wizard Mode:** Interactive step-by-step onboarding for new users.
-- [ ] **Currency Alias:** Configurable base currency and quick switching.
+### 🟡 Phase 2: Navigation & History (In Progress)
+- [ ] **Dynamic History (`ls`):**
+    - `fq ls` — View transactions for the current month.
+    - `fq ls <month>` — Filter history by specific month (e.g., `03` or `march`).
+    - `fq ls all` — View full transaction history from the very beginning.
+- [ ] **Universal Search (`find`):**
+    - Search by **Amount** (e.g., `fq find 500`).
+    - Search by **Category or Comment** (e.g., `fq find taxi` or `fq find @dinner`).
+    - Combined filters (e.g., Search by amount within a specific month).
 
-### Phase 3: AI & Mobile Vision
-- [ ] **AI Assistant (Premium):** LLM-powered context recognition and voice-to-command.
-- [ ] **Mobile Terminal UI:** A mobile app that preserves the raw CLI aesthetic and speed.
+### 🟠 Phase 3: Analytics & Intelligence
+- [ ] **Monthly Statistics (`stats`):**
+    - `fq stats` — Categorized spending breakdown for the current period.
+    - `fq stats all` — Lifetime financial summary (Total Earned vs. Total Spent).
+- [ ] **Budget Forecasting:**
+    - Interactive "Days until next salary" wizard to calculate burn rate.
+    - Daily spending limit calculation based on remaining funds and time.
+- [ ] **Anomaly Detection:** Alerts for unusually high expenditures in specific categories.
+
+### 🔵 Phase 4: DX & Portability
+- [ ] **Auto-Setup:** Automatic creation of the `data/` directory and required files on the first launch.
+- [ ] **Data Export:** Tools to backup data or export history to CSV/Excel for external analysis.
 
 ---
 
