@@ -110,7 +110,7 @@ class FinanceUI:
         
         print("\n💡 EXAMPLES & USE CASES:")
         print("-" * 75)
-        print("1. Received Salary in USD:     fq e 1500 usd salary")
+        print("1. Received Salary in USD:    fq e 1500 usd salary")
         print("2. Normal Income in UAH:      fq e 20000")
         print("3. Bought Coffee:             fq b food 65")
         print("4. Check what I can spend:    fq db 10 (budget for 10 days)")
