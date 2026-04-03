@@ -28,6 +28,13 @@ def main():
         ui.display_categories(manager._load_json(manager.categories_path))
     elif cmd == "cs":
         ui.display_stats(manager.get_monthly_stats())
+    elif cmd == "rm" and len(sys.argv) == 3:
+        t_id = sys.argv[2]
+        new_balances, error = manager.remove_transaction(t_id)
+        if error:
+            ui.show_error(error)
+        else:
+            show_dashboard(new_balances)
     elif cmd == "db" and len(sys.argv) == 3:
         try:
             days = int(sys.argv[2])

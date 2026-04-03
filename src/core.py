@@ -114,3 +114,58 @@ class FinanceManager:
             reader = csv.reader(f)
             transactions = [row for row in reader if row]
             return transactions[-n:]
+
+    def remove_transaction(self, t_id):
+        """Removes a transaction by ID, restores balances, and updates files."""
+        if not os.path.exists(self.history_path):
+            return None, "History file not found."
+
+        rows = []
+        target_row = None
+        
+        # 1. Read all rows and separate the target
+        with open(self.history_path, 'r', encoding='utf-8') as f:
+            reader = csv.reader(f)
+            for row in reader:
+                if row and row[0] == t_id:
+                    target_row = row
+                else:
+                    rows.append(row)
+
+        if not target_row:
+            return None, f"Transaction {t_id} not found."
+
+        # 2. Parse target data (id, date, type, cat, amt_str, env)
+        _, _, t_type, _, amt_str, env_name = target_row
+        try:
+            # Extract float from "100.00 UAH"
+            amount = float(amt_str.split()[0])
+        except:
+            return None, "Error parsing transaction amount."
+
+        # 3. Reverse Balance Logic
+        balances = self._load_json(self.balances_path)
+        
+        if t_type == "EXPENSE":
+            # Return money to the specific envelope
+            env_key = env_name.lower().replace("-", "_")
+            if env_key in balances:
+                balances[env_key] += amount
+        
+        elif t_type == "INCOME":
+            if env_name == "Distributed":
+                # Reverse the 50/30/10/10 distribution
+                for key, weight in self.income_rules.items():
+                    balances[key] -= amount * weight
+            else:
+                # Reverse direct income
+                env_key = env_name.lower().replace("-", "_")
+                if env_key in balances:
+                    balances[env_key] -= amount
+
+        # 4. Save both files
+        self._save_json(self.balances_path, balances)
+        with open(self.history_path, 'w', newline='', encoding='utf-8') as f:
+            csv.writer(f).writerows(rows)
+
+        return balances, None
