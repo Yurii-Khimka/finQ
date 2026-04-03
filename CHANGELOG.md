@@ -2,3 +2,4 @@
 ### Added
 - Detailed help guide with currency examples.
 - `undo` command to rollback the last transaction.
+- Professional README with project philosophy, Roadmap, and AI Context.
