@@ -1,6 +1,7 @@
 class FinanceUI:
     @staticmethod
     def display_summary(balances, usd_rate=None, eur_rate=None, last_transactions=None):
+        """Displays the main dashboard with 3-currency overview."""
         def conv(val, rate): return val / rate if rate else 0
 
         print("\n" + "=" * 78)
@@ -27,17 +28,16 @@ class FinanceUI:
             print("-" * 82)
             print(f"{'ID':<9} | {'DATE':<16} | {'TYPE':<8} | {'CAT':<16} | {'AMOUNT':>12}")
             print("-" * 82)
-            
             for row in last_transactions:
                 if len(row) >= 6:
-                    t_id, date, t_type, cat, amt_str, env = row[:6]
+                    t_id, date, t_type, cat, amt_str, _ = row[:6]
                     status_mark = " [!]" if len(row) > 6 and row[6] != "OK" else ""
                     print(f"{t_id:<9} | {date:<16} | {t_type:<8} | {cat:<16} | {amt_str + status_mark:>12}")
             print("-" * 82 + "\n")
 
     @staticmethod
     def display_stats(stats):
-        """Звіт 'fq cs' у стилі головного дашборду з пунктирними лініями."""
+        """Displays monthly spending report with category breakdown."""
         print("\n📊 MONTHLY CATEGORY SUMMARY")
         
         for env_key in ["mandatory", "non_mandatory"]:
@@ -60,8 +60,12 @@ class FinanceUI:
 
     @staticmethod
     def display_daily_budget(mand, non_mand, days, usd, eur):
+        """Displays daily limits with envelope breakdown and headers."""
         def conv(val, rate): return val / rate if rate else 0
-        d_mand, d_non = mand / days, non_mand / days
+        
+        # Calculate daily slices for each spendable envelope
+        d_mand = mand / days
+        d_non = non_mand / days
         d_total = (mand + non_mand) / days
 
         print("\n" + f"📅 DAILY LIMITS (For {days} days)")
@@ -100,6 +104,7 @@ class FinanceUI:
 
     @staticmethod
     def display_help():
+        """Full command reference with usage examples."""
         print("\n" + "=" * 75)
         print("📖 finQ PROFESSIONAL TERMINAL GUIDE")
         print("=" * 75)
@@ -109,15 +114,16 @@ class FinanceUI:
         print(f"{'fq db <days>':<22} - 📅 Calculate Daily Budget")
         print(f"{'fq b <cat> <amt>':<22} - 💸 Record Expense (e.g., fq b taxi 80)")
         print(f"{'fq e <amt> [flags]':<22} - 💰 Record Income (flags: usd, eur, salary)")
-        print(f"{'fq rm <id>':<22} - 🗑️  Remove transaction by ID and restore balance")
+        print(f"{'fq rm <id>':<22} - 🗑️  Remove transaction & restore balance")
+        print(f"{'fq sync <total>':<22} - 🔄 Proportional balance adjustment")
         
         print("\n💡 EXAMPLES & USE CASES:")
         print("-" * 75)
-        print("1. Salary (USD):              fq e 1500 usd salary (flushes leftovers & refills envelopes)")
-        print("2. Extra Income (UAH):        fq e 20000 (adds to current balances without flushing)")
-        print("3. Bought Coffee:             fq b food 65")
-        print("4. Check what I can spend:    fq db 10 (budget for 10 days)")
-        print("5. Delete transaction:        fq rm <id> (removes record and restores balance)")
+        print("1. Salary (USD):              fq e 1500 usd salary")
+        print("2. Normal Income (UAH):       fq e 10000")
+        print("3. Quick Expense:             fq b food 150")
+        print("4. Planning for 15 days:      fq db 15")
+        print("5. Fixing mistake:            fq rm a1b2c3d4")
         
-        print("\n⚠️  PRO TIP: Use 'salary' flag to flush old 'Non-Mandatory' leftovers.")
+        print("\n⚠️  PRO TIP: Use 'salary' flag to flush leftovers to 'Dreams'.")
         print("=" * 75 + "\n")
