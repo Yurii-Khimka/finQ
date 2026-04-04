@@ -170,6 +170,22 @@ class FinanceManager:
             transactions = [row for row in reader if row]
             return transactions[-n:]
 
+    def get_filtered_history(self, filter_val="all"):
+        """
+        Retrieves history with advanced filtering.
+        Default is 'all' or specific month (e.g. '04').
+        """
+        history = self.get_history()
+        if not history: return []
+
+        if filter_val == "all":
+            return history
+
+        # Filtering by month (format -MM-)
+        # This covers cases like '04' or '4' (via zfill)
+        month_str = f"-{filter_val.zfill(2)}-"
+        return [row for row in history if month_str in row[1]]
+
     def remove_transaction(self, t_id):
         history = self.get_history()
         target_row = next((row for row in history if row[0] == t_id), None)

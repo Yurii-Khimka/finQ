@@ -36,6 +36,19 @@ def main():
             ui.show_error(error)
         else:
             show_dashboard(new_balances)
+    elif cmd == "ls":
+        # Check if user provided 'all' or a specific month (e.g., fq ls 04)
+        from datetime import datetime
+        # If no argument, use current month (e.g. '04')
+        if len(sys.argv) < 3:
+            filter_val = datetime.now().strftime("%m")
+        else:
+            filter_val = sys.argv[2].lower()
+            
+        history_data = manager.get_filtered_history(filter_val)
+        
+        title = "ALL TIME HISTORY" if filter_val == "all" else f"HISTORY FOR MONTH: {filter_val}"
+        ui.display_history_table(history_data, title)
     elif cmd == "db" and len(sys.argv) == 3:
         try:
             days = int(sys.argv[2])

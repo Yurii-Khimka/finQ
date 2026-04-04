@@ -100,6 +100,48 @@ class FinanceUI:
         print(f"Total: {len(sorted_categories)} categories. Use 'fq b <cat> <amt>'\n")
 
     @staticmethod
+    def display_history_table(rows, title="TRANSACTION HISTORY"):
+        """Renders history with dynamic summaries and fixed alignment."""
+        if not rows:
+            print("\nEmpty history for this period.")
+            return
+
+        print(f"\n📜 {title}")
+        print("=" * 115)
+        # Wider column for AMOUNT to handle income strings (e.g. USD + UAH)
+        header = f"{'ID':<9} | {'DATE':<16} | {'TYPE':<8} | {'CATEGORY':<15} | {'AMOUNT':<30} | {'ENV':<12} | {'!'}"
+        print(header)
+        print("-" * 115)
+
+        total_income = 0.0
+        total_expense = 0.0
+
+        for row in rows:
+            t_id, date, t_type, cat, amt_str, env, details = row
+            marker = "[!]" if details != "OK" else "   "
+            
+            # Calculation logic for summary
+            try:
+                # Extract UAH value from strings like '100.00 UAH' or '... (100.00 UAH)'
+                if "(" in amt_str:
+                    val = float(amt_str.split("(")[1].split()[0])
+                else:
+                    val = float(amt_str.split()[0])
+                
+                if t_type == "INCOME": total_income += val
+                elif t_type == "EXPENSE": total_expense += val
+            except (ValueError, IndexError): pass
+
+            print(f"{t_id:<9} | {date:<16} | {t_type:<8} | {cat:<15} | {amt_str:<30} | {env.upper():<12} | {marker}")
+        
+        print("-" * 115)
+        print(f"💰 SUMMARY FOR THIS PERIOD:")
+        print(f"   TOTAL INCOME:   {total_income:>15.2f} UAH")
+        print(f"   TOTAL EXPENSES: {total_expense:>15.2f} UAH")
+        print(f"   NET FLOW:       {total_income - total_expense:>15.2f} UAH")
+        print("=" * 115 + "\n")
+
+    @staticmethod
     def show_error(msg): print(f"❌ ERROR: {msg}")
 
     @staticmethod
@@ -109,6 +151,7 @@ class FinanceUI:
         print("📖 finQ PROFESSIONAL TERMINAL GUIDE")
         print("=" * 75)
         print(f"{'fq':<22} - 📊 View Dashboard & NBU Rates")
+        print(f"{'fq ls [month/all]':<22} - 📜 History with breach markers & month filters")
         print(f"{'fq cs':<22} - 📈 Monthly Category Stats (Expenses)")
         print(f"{'fq ac':<22} - 📂 List Categories")
         print(f"{'fq db <days>':<22} - 📅 Calculate Daily Budget")
@@ -124,6 +167,9 @@ class FinanceUI:
         print("3. Quick Expense:             fq b food 150")
         print("4. Planning for 15 days:      fq db 15")
         print("5. Fixing mistake:            fq rm a1b2c3d4")
+        print("6. Transaction this month:    fq ls")
+        print("7. All Transaction:           fq ls all")
+        print("8. Transaction select month:  fq ls 04 or 4")
         
         print("\n⚠️  PRO TIP: Use 'salary' flag to flush leftovers to 'Dreams'.")
         print("=" * 75 + "\n")
