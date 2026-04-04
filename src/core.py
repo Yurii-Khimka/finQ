@@ -124,6 +124,7 @@ class FinanceManager:
         return total
 
     def get_monthly_stats(self):
+        """Aggregates spending per category for the current month. Corrected for 7-column schema."""
         stats = {
         "mandatory": {"total": 0.0, "cats": {}},
         "non_mandatory": {"total": 0.0, "cats": {}}
@@ -135,8 +136,8 @@ class FinanceManager:
             reader = csv.reader(f)
             for row in reader:
                 if not row or len(row) < 6: continue 
-                
-                t_id, date, t_type, cat, amt_str, env = row[:6]
+                # Unpacking ID, Date, Type, Cat, Amount, Envelope, Details
+                t_id, date, t_type, cat, amt_str, env = row[:6] # Беремо перші 6, ігноруючи решту
                 
                 if t_type == "EXPENSE" and date.startswith(current_month):
                     try:
