@@ -24,23 +24,15 @@ class FinanceUI:
 
         if last_transactions:
             print("\n🕒 RECENT ACTIVITY:")
-            print("\n" + "-" * 82)
+            print("-" * 82)
             print(f"{'ID':<9} | {'DATE':<16} | {'TYPE':<8} | {'CAT':<16} | {'AMOUNT':>12}")
             print("-" * 82)
             
             for row in last_transactions:
-                # Тепер ми очікуємо 6 колонок: id, date, type, cat, amount, env
-                if len(row) >= 5:
-                    # Розпаковуємо з урахуванням того, що ID тепер перший
-                    t_id = row[0]
-                    date = row[1]
-                    t_type = row[2]
-                    cat = row[3]
-                    amt_str = row[4]
-                    
-                    # Вирівнюємо колонки: ID(9), DATE(16), TYPE(8), CAT(12), AMOUNT(12)
-                    print(f"{t_id:<9} | {date:<16} | {t_type:<8} | {cat:<16} | {amt_str:>12}")
-            
+                if len(row) >= 6:
+                    t_id, date, t_type, cat, amt_str, env = row[:6]
+                    status_mark = " [!]" if len(row) > 6 and row[6] != "OK" else ""
+                    print(f"{t_id:<9} | {date:<16} | {t_type:<8} | {cat:<16} | {amt_str + status_mark:>12}")
             print("-" * 82 + "\n")
 
     @staticmethod
@@ -56,8 +48,7 @@ class FinanceUI:
             print("\n" + "-" * 55)
             print(f"📂 {title}")
             print("-" * 55)
-            
-            # Сортування: дорожчі категорії зверху
+        
             sorted_cats = sorted(data["cats"].items(), key=lambda x: x[1], reverse=True)
             for cat, amt in sorted_cats:
                 print(f"{cat:<25} | {amt:>18.2f} UAH")
@@ -90,7 +81,6 @@ class FinanceUI:
             print("⚠️ No categories found.")
             return
 
-        # Заголовки таблиці
         header = f"| {'#':^3} | {'CATEGORY':<20} | {'ENVELOPE':<15} |"
         separator = "-" * len(header)
 
@@ -99,7 +89,6 @@ class FinanceUI:
         print(separator)
 
         for i, (cat, env) in enumerate(sorted_categories, 1):
-            # Використовуємо колір або верхній регістр для конвертів, щоб вони виділялися
             env_display = env.upper()
             print(f"| {i:^3} | {cat:<20} | {env_display:<15} |")
 

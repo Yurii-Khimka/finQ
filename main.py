@@ -45,15 +45,16 @@ def main():
         except: ui.show_error("Usage: fq db <days>")
     elif cmd in ["buy", "b"] and len(sys.argv) == 4:
         try:
-            balances, note, error = manager.add_expense(sys.argv[2], float(sys.argv[3]))
-            if error: 
-                ui.show_error(error)
-            else: 
+            # add_expense now returns (balances, note)
+            balances, note = manager.add_expense(sys.argv[2], float(sys.argv[3]))
+            if balances:
                 show_dashboard(balances)
                 if note:
-                    print(f"\n{note}")
-        except: 
-            ui.show_error("Usage: fq b <cat> <amt>")
+                    print(f"\n{note}") # Print breach warning below dashboard
+            else:
+                ui.show_error("Transaction failed. Check category name.")
+        except Exception as e:
+            ui.show_error(f"Usage: fq b <cat> <amt>. Error: {e}")
     elif cmd in ["earn", "e"] and len(sys.argv) >= 3:
         try:
             amount = float(sys.argv[2])
