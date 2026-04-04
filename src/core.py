@@ -171,19 +171,17 @@ class FinanceManager:
         return balances, None
 
     def get_sorted_categories(self):
-        """Returns categories sorted by envelope priority and name."""
-        # Пріоритет конвертів
-        order = {
+        """Returns categories sorted by strict financial priority."""
+        categories = self._load_json(self.categories_path)
+        
+        priority = {
             "mandatory": 1,
-            "non-mandatory": 2,
+            "non_mandatory": 2,
             "investments": 3,
             "dreams": 4
         }
         
-        categories = self._load_json(self.categories_path)
-        
-        sorted_cats = sorted(
+        return sorted(
             categories.items(), 
-            key=lambda x: (order.get(x[1], 99), x[0])
+            key=lambda x: (priority.get(x[1].lower(), 99), x[0])
         )
-        return sorted_cats
