@@ -61,43 +61,58 @@ class FinanceManager:
     def add_expense(self, category, amount, comment=""):
         categories = self._load_json(self.categories_path)
         if category not in categories:
-            return None, None, f"Category '{category}' not found."
+            return None, "Category not found."
 
         home_env = categories[category]
         balances = self._load_json(self.balances_path)
-
+        
+        # Define priority based on the category's home envelope
         if home_env == "non_mandatory":
             hierarchy = ["non_mandatory", "mandatory", "investments", "dreams"]
         else:
             hierarchy = ["mandatory", "non_mandatory", "investments", "dreams"]
 
         remaining = amount
-        details = []
-        
+        breach_data = {} # To store virtual "Budget Breaches"
+
         for env in hierarchy:
-            if remaining <= 0: break
-            current_bal = balances.get(env, 0)           
+            if remaining <= 0:
+                break
+                
+            current_bal = balances.get(env, 0)
+            
+            # If it's the last envelope (Dreams), allow it to go negative
             if env == hierarchy[-1]:
                 take = remaining
             else:
                 take = min(current_bal, remaining)
-                if take <= 0: continue
-            
+                if take <= 0: continue 
+
             balances[env] -= take
             remaining -= take
+            
+            # If we took money from a non-home envelope, record it
             if env != home_env:
-                details.append(f"{take:.2f} UAH from {env.upper()}")
+                # We normalize names (non-mandatory -> non_mandatory) for JSON
+                env_key = env.lower().replace("-", "_")
+                breach_data[env_key] = round(take, 2)
 
-        note = f"⚠️ Note: {', '.join(details)}" if details else None
+        # 7th column logic: "OK" if within budget, else JSON string of breaches
+        details = "OK"
+        note = None
+        if breach_data:
+            details = json.dumps(breach_data)
+            # Short notification for the user to see in CLI after transaction
+            breach_list = [f"{v} UAH from {k.upper()}" for k, v in breach_data.items()]
+            note = f"⚠️ Budget Breach: {', '.join(breach_list)}"
 
-        t_id = str(uuid.uuid4())[:8]
-        date_str = datetime.now().strftime("%Y-%m-%d %H:%M")
-        
-        with open(self.history_path, 'a', newline='', encoding='utf-8') as f:
-            csv.writer(f).writerow([t_id, date_str, "EXPENSE", category, f"{amount:.2f} UAH", home_env])
-
+        # Save updated balances
         self._save_json(self.balances_path, balances)
-        return balances, note, None
+        
+        # Log AS A SINGLE TRANSACTION (7 columns)
+        self._log_transaction("EXPENSE", category, f"{amount:.2f} UAH", home_env, details)
+
+        return balances, note
 
     def flush_leftovers(self):
         balances = self._load_json(self.balances_path)
@@ -131,10 +146,17 @@ class FinanceManager:
                     except: continue
         return stats
 
-    def _log_transaction(self, t, cat, amt_str, env):
-        t_id = str(uuid.uuid4())[:8] 
+    def _log_transaction(self, t_type, cat, amt_str, env, details="OK"):
+        """Logs transaction with the new 7-column standard."""
+        import uuid
+        from datetime import datetime
+        
+        t_id = str(uuid.uuid4())[:8]
+        date_str = datetime.now().strftime("%Y-%m-%d %H:%M")
+        
         with open(self.history_path, 'a', newline='', encoding='utf-8') as f:
-            csv.writer(f).writerow([t_id, datetime.now().strftime("%Y-%m-%d %H:%M"), t, cat, amt_str, env])
+            writer = csv.writer(f)
+            writer.writerow([t_id, date_str, t_type, cat, amt_str, env, details])
 
     def get_last_transactions(self, n=5):
         if not os.path.exists(self.history_path): 
