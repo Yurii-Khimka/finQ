@@ -4,6 +4,7 @@
 - "Discipline Waterfall" logic: Expenses now automatically cascade across envelopes if funds are insufficient (Non-Mandatory -> Mandatory -> Investments -> Dreams).
 - Automated logs: Added `[⚠️ Taken from ENV]` markers in transaction comments when the waterfall logic is triggered.
 - Category sorting priority: Strictly enforced order (Mandatory -> Non-Mandatory -> Investments -> Dreams).
+- Add new expense
 
 ---
 
