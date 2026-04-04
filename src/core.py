@@ -168,59 +168,64 @@ class FinanceManager:
             return transactions[-n:]
 
     def remove_transaction(self, t_id):
-        """Removes a transaction by ID, restores balances, and updates files."""
-        if not os.path.exists(self.history_path):
-            return None, "History file not found."
-
-        rows = []
-        target_row = None
+        """
+        Removes a transaction and restores balances based on the 7-column metadata.
+        Handles both 'OK' and JSON-based 'Budget Breach' reversals.
+        """
+        history = self.get_history()
+        # Find the specific row by its unique ID
+        target_row = next((row for row in history if row[0] == t_id), None)
         
-        # 1. Read all rows and separate the target
-        with open(self.history_path, 'r', encoding='utf-8') as f:
-            reader = csv.reader(f)
-            for row in reader:
-                if row and row[0] == t_id:
-                    target_row = row
-                else:
-                    rows.append(row)
-
         if not target_row:
-            return None, f"Transaction {t_id} not found."
+            return None, f"Transaction ID '{t_id}' not found."
 
-        # 2. Parse target data (id, date, type, cat, amt_str, env)
-        _, _, t_type, _, amt_str, env_name = target_row
-        try:
-            # Extract float from "100.00 UAH"
-            amount = float(amt_str.split()[0])
-        except:
-            return None, "Error parsing transaction amount."
-
-        # 3. Reverse Balance Logic
+        # Unpack exactly 7 columns from the target row
+        # ID, Date, Type, Category, Amount, Envelope, Details
+        _, _, t_type, _, amt_str, home_env, details = target_row
+        
+        # Parse the numeric amount from string like "150.00 UAH"
+        amount = float(amt_str.split()[0])
         balances = self._load_json(self.balances_path)
-        
+
         if t_type == "EXPENSE":
-            # Return money to the specific envelope
-            env_key = env_name.lower().replace("-", "_")
-            if env_key in balances:
-                balances[env_key] += amount
-        
-        elif t_type == "INCOME":
-            if env_name == "Distributed":
-                # Reverse the 50/30/10/10 distribution
-                for key, weight in self.income_rules.items():
-                    balances[key] -= amount * weight
+            if details == "OK":
+                # Regular expense: put all money back to the home envelope
+                balances[home_env] += amount
             else:
-                # Reverse direct income
-                env_key = env_name.lower().replace("-", "_")
-                if env_key in balances:
-                    balances[env_key] -= amount
+                # Budget Breach case: parse JSON to see where the money came from
+                try:
+                    breach_data = json.loads(details)
+                    borrowed_total = 0
+                    for env, borrowed_amt in breach_data.items():
+                        # Return 'stolen' money to its original envelope
+                        if env in balances:
+                            balances[env] += borrowed_amt
+                            borrowed_total += borrowed_amt
+                    
+                    # Return the rest (the part that was actually in the home budget)
+                    balances[home_env] += (amount - borrowed_total)
+                except json.JSONDecodeError:
+                    # Safety fallback if metadata is corrupted
+                    balances[home_env] += amount
 
-        # 4. Save both files
-        self._save_json(self.balances_path, balances)
+        elif t_type == "INCOME":
+            # For income, we just subtract it back from the home envelope
+            balances[home_env] -= amount
+
+        # Save the new history excluding the deleted transaction
+        new_history = [row for row in history if row[0] != t_id]
         with open(self.history_path, 'w', newline='', encoding='utf-8') as f:
-            csv.writer(f).writerows(rows)
-
+            csv.writer(f).writerows(new_history)
+            
+        self._save_json(self.balances_path, balances)
         return balances, None
+
+    def get_history(self):
+        """Reads and returns all transactions from the history CSV file."""
+        if not os.path.exists(self.history_path):
+            return []
+        with open(self.history_path, 'r', encoding='utf-8') as f:
+            return list(csv.reader(f))
 
     def get_sorted_categories(self):
         """Returns categories sorted by strict financial priority."""
