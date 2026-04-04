@@ -54,3 +54,33 @@ Every income entry is automatically split into four strategic "envelopes":
 - [ ] **Predictive Modeling:** - "Days to Zero" forecast: Estimating when the wallet hits 0.00 UAH based on current behavior.
     - Safe Daily Limit recommendations to survive until the next salary.
 - [ ] **Anomaly Detection:** Alerts for unusual spending patterns in specific categories.
+
+---
+
+## 🤖 AI Agent Context & Project Logic (Internal Reference)
+
+> **Role:** You are an expert Python developer and financial architect helping to build **finQ** — a zero-based budgeting CLI tool.
+
+### 🎯 Core Philosophy: "Discipline Waterfall"
+- **Waterfall v2.0:** If an envelope is empty, funds are automatically pulled from others in this order: 
+  - `Non-Mandatory` ↔ `Mandatory` → `Investments` → `Dreams`.
+- **Integrity:** Every transaction remains a **single entry** in the CSV to preserve the "event" reality.
+- **Budget Breach:** A virtual category used during analytics. If money is "borrowed" from another envelope, that amount is attributed to `Budget Breach` in the lending envelope's stats.
+
+### 📊 Data Schema (Strict 7-Column Layout)
+All logic (including `remove_transaction` and `audit`) depends on this CSV structure:
+1. `ID`: Unique 8-char transaction identifier.
+2. `DATE`: Format `%Y-%m-%d %H:%M` (No seconds to keep UI clean).
+3. `TYPE`: `INCOME`, `EXPENSE`, or `SYNC`.
+4. `CATEGORY`: Original category (e.g., `coffee`, `rent`).
+5. `AMOUNT`: Full transaction amount (e.g., `200.00 UAH`).
+6. `ENVELOPE`: The "home" envelope of the category.
+7. `DETAILS`: Metadata for Waterfall splits. 
+   - Format: `OK` or `{"lending_envelope": amount_borrowed}`.
+
+### 🛠 Workflow Instructions for AI
+When the user provides an **Issue ID** or **Task Name**, follow these rules:
+1. **Context Check:** Always verify the 7-column schema in `core.py`.
+2. **Logic Check:** Ensure `remove_transaction` reverses the `DETAILS` metadata correctly.
+3. **CLI First:** Provide commands for `gh issue develop <ID>` and git workflows.
+4. **No Bloat:** Do not add features (like comments) unless explicitly requested. Keep it "Professional Terminal" style.
