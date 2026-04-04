@@ -59,59 +59,45 @@ class FinanceManager:
         return balances
 
     def add_expense(self, category, amount, comment=""):
-        """Adds expense with 'Discipline Waterfall' logic."""
         categories = self._load_json(self.categories_path)
         if category not in categories:
-            return None, f"Category '{category}' not found."
+            return None, None, f"Category '{category}' not found."
 
         home_env = categories[category]
         balances = self._load_json(self.balances_path)
+
+        if home_env == "non_mandatory":
+            hierarchy = ["non_mandatory", "mandatory", "investments", "dreams"]
+        else:
+            hierarchy = ["mandatory", "non_mandatory", "investments", "dreams"]
+
+        remaining = amount
+        details = []
         
-        if home_env == "non-mandatory":
-            hierarchy = ["non-mandatory", "mandatory", "investments", "dreams"]
-        elif home_env == "mandatory":
-            hierarchy = ["mandatory", "non-mandatory", "investments", "dreams"]
-        elif home_env == "investments":
-            hierarchy = ["investments", "non-mandatory", "mandatory", "dreams"]
-        else: # dreams
-            hierarchy = ["dreams", "investments", "non-mandatory", "mandatory"]
-
-        remaining_to_pay = amount
-        transactions_made = []
-
         for env in hierarchy:
-            if remaining_to_pay <= 0:
-                break
-                
-            env_balance = balances.get(env, 0)
-            
+            if remaining <= 0: break
+            current_bal = balances.get(env, 0)           
             if env == hierarchy[-1]:
-                spend_from_this = remaining_to_pay
+                take = remaining
             else:
-                spend_from_this = min(env_balance, remaining_to_pay)
-                if spend_from_this <= 0: continue 
-
-            balances[env] -= spend_from_this
-            remaining_to_pay -= spend_from_this
+                take = min(current_bal, remaining)
+                if take <= 0: continue
             
-            import uuid
-            from datetime import datetime
-            t_id = str(uuid.uuid4())[:8]
-            date_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            
-            final_comment = comment
+            balances[env] -= take
+            remaining -= take
             if env != home_env:
-                final_comment = f"{comment} [⚠️ Taken from {env.upper()}]".strip()
-            
-            row = [t_id, date_str, "EXPENSE", category, f"{spend_from_this:.2f}", env, final_comment]
-            transactions_made.append(row)
+                details.append(f"{take:.2f} UAH from {env.upper()}")
+
+        note = f"⚠️ Note: {', '.join(details)}" if details else None
+
+        t_id = str(uuid.uuid4())[:8]
+        date_str = datetime.now().strftime("%Y-%m-%d %H:%M")
+        
+        with open(self.history_path, 'a', newline='', encoding='utf-8') as f:
+            csv.writer(f).writerow([t_id, date_str, "EXPENSE", category, f"{amount:.2f} UAH", home_env])
 
         self._save_json(self.balances_path, balances)
-        import csv
-        with open(self.history_path, 'a', newline='', encoding='utf-8') as f:
-            csv.writer(f).writerows(transactions_made)
-
-        return balances, None
+        return balances, note, None
 
     def flush_leftovers(self):
         balances = self._load_json(self.balances_path)

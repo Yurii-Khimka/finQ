@@ -45,10 +45,15 @@ def main():
         except: ui.show_error("Usage: fq db <days>")
     elif cmd in ["buy", "b"] and len(sys.argv) == 4:
         try:
-            env, bal = manager.add_expense(sys.argv[2], float(sys.argv[3]))
-            if env: show_dashboard(bal)
-            else: ui.show_error("Category unknown. Use 'fq ac'.")
-        except: ui.show_error("Usage: fq b <cat> <amt>")
+            balances, note, error = manager.add_expense(sys.argv[2], float(sys.argv[3]))
+            if error: 
+                ui.show_error(error)
+            else: 
+                show_dashboard(balances)
+                if note:
+                    print(f"\n{note}")
+        except: 
+            ui.show_error("Usage: fq b <cat> <amt>")
     elif cmd in ["earn", "e"] and len(sys.argv) >= 3:
         try:
             amount = float(sys.argv[2])
