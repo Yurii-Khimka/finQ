@@ -125,8 +125,8 @@ class FinanceManager:
 
     def get_monthly_stats(self):
         stats = {
-            "mandatory": {"total": 0.0, "cats": {}},
-            "non_mandatory": {"total": 0.0, "cats": {}}
+        "mandatory": {"total": 0.0, "cats": {}},
+        "non_mandatory": {"total": 0.0, "cats": {}}
         }
         current_month = datetime.now().strftime("%Y-%m")
         if not os.path.exists(self.history_path): return stats
@@ -134,8 +134,10 @@ class FinanceManager:
         with open(self.history_path, 'r', encoding='utf-8') as f:
             reader = csv.reader(f)
             for row in reader:
-                if not row or len(row) < 5: continue
-                t_id, date, t_type, cat, amt_str, env = row
+                if not row or len(row) < 6: continue 
+                
+                t_id, date, t_type, cat, amt_str, env = row[:6]
+                
                 if t_type == "EXPENSE" and date.startswith(current_month):
                     try:
                         val = float(amt_str.replace("UAH", "").strip())
@@ -168,51 +170,39 @@ class FinanceManager:
             return transactions[-n:]
 
     def remove_transaction(self, t_id):
-        """
-        Removes a transaction and restores balances based on the 7-column metadata.
-        Handles both 'OK' and JSON-based 'Budget Breach' reversals.
-        """
         history = self.get_history()
-        # Find the specific row by its unique ID
         target_row = next((row for row in history if row[0] == t_id), None)
         
         if not target_row:
             return None, f"Transaction ID '{t_id}' not found."
 
-        # Unpack exactly 7 columns from the target row
-        # ID, Date, Type, Category, Amount, Envelope, Details
-        _, _, t_type, _, amt_str, home_env, details = target_row
+        # Безпечне розпакування: якщо колонок менше 7, ставимо "OK" за замовчуванням
+        t_type = target_row[2]
+        amt_str = target_row[4]
+        home_env = target_row[5]
+        details = target_row[6] if len(target_row) > 6 else "OK"
         
-        # Parse the numeric amount from string like "150.00 UAH"
         amount = float(amt_str.split()[0])
         balances = self._load_json(self.balances_path)
 
         if t_type == "EXPENSE":
             if details == "OK":
-                # Regular expense: put all money back to the home envelope
                 balances[home_env] += amount
             else:
-                # Budget Breach case: parse JSON to see where the money came from
                 try:
                     breach_data = json.loads(details)
                     borrowed_total = 0
                     for env, borrowed_amt in breach_data.items():
-                        # Return 'stolen' money to its original envelope
                         if env in balances:
                             balances[env] += borrowed_amt
                             borrowed_total += borrowed_amt
-                    
-                    # Return the rest (the part that was actually in the home budget)
                     balances[home_env] += (amount - borrowed_total)
-                except json.JSONDecodeError:
-                    # Safety fallback if metadata is corrupted
+                except:
                     balances[home_env] += amount
 
         elif t_type == "INCOME":
-            # For income, we just subtract it back from the home envelope
             balances[home_env] -= amount
 
-        # Save the new history excluding the deleted transaction
         new_history = [row for row in history if row[0] != t_id]
         with open(self.history_path, 'w', newline='', encoding='utf-8') as f:
             csv.writer(f).writerows(new_history)
