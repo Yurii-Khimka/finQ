@@ -57,30 +57,51 @@ Every income entry is automatically split into four strategic "envelopes":
 
 ---
 
-## 🤖 AI Agent Context & Project Logic (Internal Reference)
+# 🧠 AI AGENT MISSION CONTROL & PROJECT CONTEXT
 
-> **Role:** You are an expert Python developer and financial architect helping to build **finQ** — a zero-based budgeting CLI tool.
+> **This section is the "Source of Truth" for any AI agent assisting in development.**
 
-### 🎯 Core Philosophy: "Discipline Waterfall"
-- **Waterfall v2.0:** If an envelope is empty, funds are automatically pulled from others in this order: 
-  - `Non-Mandatory` ↔ `Mandatory` → `Investments` → `Dreams`.
-- **Integrity:** Every transaction remains a **single entry** in the CSV to preserve the "event" reality.
-- **Budget Breach:** A virtual category used during analytics. If money is "borrowed" from another envelope, that amount is attributed to `Budget Breach` in the lending envelope's stats.
+## 🎯 1. Project Objective & Philosophy
+**finQ** is a professional-grade CLI tool for personal finance management based on the **Zero-Based Budgeting** methodology.
+- **Philosophy:** Money isn't just "spent"; it is allocated. If a budget is breached, the user must experience the "friction" of seeing exactly where that money was "borrowed" from.
+- **Core Principle:** *Discipline Waterfall*. Envelopes have a strict priority. Expenses automatically cascade down the hierarchy if the primary envelope is empty.
 
-### 📊 Data Schema (Strict 7-Column Layout)
-All logic (including `remove_transaction` and `audit`) depends on this CSV structure:
-1. `ID`: Unique 8-char transaction identifier.
-2. `DATE`: Format `%Y-%m-%d %H:%M` (No seconds to keep UI clean).
+## 🏗 2. Technical Architecture
+The project follows a modular Python structure:
+- `main.py`: Entry point, handles CLI arguments via `sys.argv`.
+- `src/core.py`: The financial engine (calculations, CSV/JSON I/O, NBU API integration).
+- `src/ui.py`: Terminal interface (tables, colors, scanning-optimized formatting).
+- `data/`: Persistent storage (JSON for balances/categories, CSV for transaction history).
+
+## 📊 3. Data Schema (The 7-Column Standard)
+All analytics and the `remove_transaction` (undo) feature rely on a strict 7-column CSV structure in `history.csv`:
+1. `ID`: Unique 8-character transaction hash.
+2. `DATE`: Format `%Y-%m-%d %H:%M` (No seconds).
 3. `TYPE`: `INCOME`, `EXPENSE`, or `SYNC`.
-4. `CATEGORY`: Original category (e.g., `coffee`, `rent`).
-5. `AMOUNT`: Full transaction amount (e.g., `200.00 UAH`).
-6. `ENVELOPE`: The "home" envelope of the category.
-7. `DETAILS`: Metadata for Waterfall splits. 
-   - Format: `OK` or `{"lending_envelope": amount_borrowed}`.
+4. `CATEGORY`: Category name (synced with `categories.json`).
+5. `AMOUNT`: Full amount with currency (e.g., `100.00 UAH`).
+6. `ENVELOPE`: The "Home" envelope of the category.
+7. `DETAILS`: Metadata for Waterfall tracking. 
+   - Format: `OK` or a JSON string like `{"lending_envelope": amount_borrowed}`.
 
-### 🛠 Workflow Instructions for AI
-When the user provides an **Issue ID** or **Task Name**, follow these rules:
-1. **Context Check:** Always verify the 7-column schema in `core.py`.
-2. **Logic Check:** Ensure `remove_transaction` reverses the `DETAILS` metadata correctly.
-3. **CLI First:** Provide commands for `gh issue develop <ID>` and git workflows.
-4. **No Bloat:** Do not add features (like comments) unless explicitly requested. Keep it "Professional Terminal" style.
+## ✅ 4. Implemented Logic
+- **Smart Income:** The `salary` flag flushes leftovers from `Mandatory` and `Non-Mandatory` to `Dreams` before redistributing new funds.
+- **Waterfall v2.0:** A single history entry is created for an expense, but the actual funds are deducted across envelopes based on availability.
+- **Budget Breach:** A virtual accounting logic. During reporting, any "borrowed" amount is attributed to a `Budget Breach` category within the lending envelope's statistics.
+- **Currency:** Real-time conversion for USD/EUR via the NBU API.
+
+## 🛠 5. AI Developer Instructions (The Rules)
+When working on this project, you **MUST** adhere to these strict rules:
+1. **English Only:** All code comments, documentation, and logic descriptions provided in the code MUST be in English.
+2. **No Bloatware:** Do not add features (comments, tags, GUI elements) unless explicitly requested. Maintain a "Professional Terminal" aesthetic.
+3. **Backward Compatibility:** Any logic change must not break the `rm` (remove transaction) or `fq cs` (stats) commands.
+4. **Convention over Configuration:** Use existing patterns (e.g., if no `salary` flag is present, treat income as a standard balance top-up).
+5. **Git Workflow:** Always suggest `gh issue develop <ID>` and standard git commands for committing changes.
+6. **Formatting:** Use tables for data output. Follow the envelope hierarchy: `Mandatory` -> `Non-Mandatory` -> `Investments` -> `Dreams`.
+
+## 🔜 6. Planned Features (Roadmap)
+- `fq audit`: Analysis of "Budget Breaches" and a "Days to Zero" forecast.
+- `fq ls`: Advanced history view with month-based filters and status markers.
+- `Burn Rate`: Calculation of average daily spending and safe-limit recommendations.
+
+---
