@@ -84,13 +84,27 @@ class FinanceUI:
         print("-" * 65 + "\n")
 
     @staticmethod
-    def display_categories(categories):
-        print("\n" + "-" * 50)
-        print(f"{'CATEGORY':<25} | {'ENVELOPE'}")
-        print("-" * 50)
-        for cat, env in sorted(categories.items()):
-            print(f"{cat:<25} | {env}")
-        print("-" * 50 + "\n")
+    def display_categories(sorted_categories):
+        """Displays a compact table of all categories."""
+        if not sorted_categories:
+            print("⚠️ No categories found.")
+            return
+
+        # Заголовки таблиці
+        header = f"| {'#':^3} | {'CATEGORY':<20} | {'ENVELOPE':<15} |"
+        separator = "-" * len(header)
+
+        print("\n" + separator)
+        print(header)
+        print(separator)
+
+        for i, (cat, env) in enumerate(sorted_categories, 1):
+            # Використовуємо колір або верхній регістр для конвертів, щоб вони виділялися
+            env_display = env.upper()
+            print(f"| {i:^3} | {cat:<20} | {env_display:<15} |")
+
+        print(separator)
+        print(f"Total: {len(sorted_categories)} categories. Use 'fq b <cat> <amt>'\n")
 
     @staticmethod
     def show_error(msg): print(f"❌ ERROR: {msg}")

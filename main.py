@@ -25,7 +25,8 @@ def main():
     if cmd in ["help", "-h"]:
         ui.display_help()
     elif cmd == "ac":
-        ui.display_categories(manager._load_json(manager.categories_path))
+        sorted_cats = manager.get_sorted_categories()
+        ui.display_categories(sorted_cats)
     elif cmd == "cs":
         ui.display_stats(manager.get_monthly_stats())
     elif cmd == "rm" and len(sys.argv) == 3:

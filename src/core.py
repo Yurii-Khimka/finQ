@@ -169,3 +169,21 @@ class FinanceManager:
             csv.writer(f).writerows(rows)
 
         return balances, None
+
+    def get_sorted_categories(self):
+        """Returns categories sorted by envelope priority and name."""
+        # Пріоритет конвертів
+        order = {
+            "mandatory": 1,
+            "non-mandatory": 2,
+            "investments": 3,
+            "dreams": 4
+        }
+        
+        categories = self._load_json(self.categories_path)
+        
+        sorted_cats = sorted(
+            categories.items(), 
+            key=lambda x: (order.get(x[1], 99), x[0])
+        )
+        return sorted_cats
