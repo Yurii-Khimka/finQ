@@ -26,43 +26,31 @@ Every income entry is automatically split into four strategic "envelopes":
 
 ---
 
-## 🗺 Roadmap
+## 🗺 Roadmap & Future Features
 
 ### 🟢 Phase 1: Foundation (Completed)
 - [x] **Core Architecture:** Modular structure with separate logic (`src/`), data (`data/`), and entry point (`main.py`).
-- [x] **ID System:** Implementation of unique 8-character IDs for every transaction to ensure data integrity.
-- [x] **Transaction Control:** Robust `rm <id>` command with automatic balance restoration and CSV cleanup.
-- [x] **Currency Support:** Live NBU API integration for seamless USD/EUR to UAH conversion.
-- [x] **Zero-Based Budgeting:** Advanced "Salary" logic with automated leftover flushing (50/30/10/10 distribution).
+- [x] **ID System:** Unique 8-character IDs for every transaction.
+- [x] **Currency Support:** Live NBU API integration for USD/EUR to UAH conversion.
+- [x] **Convention over Configuration:** Income logic (Salary flushes leftovers, Normal income adds to balance).
 
-### 🟡 Phase 2: Navigation & History (In Progress)
-- [ ] **Dynamic History (`ls`):**
-    - `fq ls` — View transactions for the current month.
-    - `fq ls <month>` — Filter history by specific month (e.g., `03` or `march`).
-    - `fq ls all` — View full transaction history from the very beginning.
-- [ ] **Universal Search (`find`):**
-    - Search by **Amount** (e.g., `fq find 500`).
-    - Search by **Category or Comment** (e.g., `fq find taxi` or `fq find @dinner`).
-    - Combined filters (e.g., Search by amount within a specific month).
+### 🟡 Phase 2: Data Integrity & Smart Navigation (In Progress)
+- [ ] **Schema Migration (7 Columns):** Upgrade CSV structure to include a `STATUS/DETAILS` column for advanced tracking.
+- [ ] **Discipline Waterfall v2.0:** - Automatic cross-envelope funding (Mandatory ↔ Non-Mandatory → Invest → Dreams).
+    - Single-entry transactions with hidden "funding traces" in metadata.
+- [ ] **Advanced History (`ls`):**
+    - `fq ls` / `fq ls all` / `fq ls <month>` — Clean table view with "Overrun" markers.
+- [ ] **Universal Search (`find`):** Search by amount, category, or status.
 
-### 🟠 Phase 3: Analytics & Intelligence
-- [ ] **Monthly Statistics (`stats`):**
-    - `fq stats` — Categorized spending breakdown for the current period.
-    - `fq stats all` — Lifetime financial summary (Total Earned vs. Total Spent).
-- [ ] **Budget Forecasting:**
-    - Interactive "Days until next salary" wizard to calculate burn rate.
-    - Daily spending limit calculation based on remaining funds and time.
-- [ ] **Anomaly Detection:** Alerts for unusually high expenditures in specific categories.
+### 🟠 Phase 3: Analytics & "Budget Breach" Logic
+- [ ] **Smart Monthly Stats (`fq cs`):**
+    - Virtual splitting of transactions: Original cost stays in its category.
+    - Automated **`Budget Breach`** category: Shows exactly how much was "stolen" from an envelope due to lack of discipline.
+- [ ] **Audit Hub (`fq audit`):**
+    - List of all budget violations (overruns) for the current period.
+    - **Burn Rate Analysis:** Calculation of average daily spending vs. remaining funds.
 
-### 🔵 Phase 4: DX & Portability
-- [ ] **Auto-Setup:** Automatic creation of the `data/` directory and required files on the first launch.
-- [ ] **Data Export:** Tools to backup data or export history to CSV/Excel for external analysis.
-
----
-
-## 🧠 AI Context (For LLM Collaboration)
-*Guidelines for AI assistants working on finQ:*
-- **Logic:** Core business logic resides in `core.py`. CLI interactions/UI are in `ui.py`.
-- **Data:** Persistent state is in `balances.json`. Full audit log is in `history.csv`.
-- **Consistency:** Always validate currency conversions before updating `balances.json`.
-- **Tone:** Professional, technical, and data-driven.
+### 🔵 Phase 4: Intelligence & Forecasting
+- [ ] **Predictive Modeling:** - "Days to Zero" forecast: Estimating when the wallet hits 0.00 UAH based on current behavior.
+    - Safe Daily Limit recommendations to survive until the next salary.
+- [ ] **Anomaly Detection:** Alerts for unusual spending patterns in specific categories.
