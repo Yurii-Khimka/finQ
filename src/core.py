@@ -58,16 +58,60 @@ class FinanceManager:
         self._log_transaction("INCOME", "Total", amt_str, "Distributed")
         return balances
 
-    def add_expense(self, category, amount):
+    def add_expense(self, category, amount, comment=""):
+        """Adds expense with 'Discipline Waterfall' logic."""
         categories = self._load_json(self.categories_path)
+        if category not in categories:
+            return None, f"Category '{category}' not found."
+
+        home_env = categories[category]
         balances = self._load_json(self.balances_path)
-        cat = category.lower()
-        if cat not in categories: return None, balances
-        env = categories[cat]
-        balances[env] -= amount
+        
+        if home_env == "non-mandatory":
+            hierarchy = ["non-mandatory", "mandatory", "investments", "dreams"]
+        elif home_env == "mandatory":
+            hierarchy = ["mandatory", "non-mandatory", "investments", "dreams"]
+        elif home_env == "investments":
+            hierarchy = ["investments", "non-mandatory", "mandatory", "dreams"]
+        else: # dreams
+            hierarchy = ["dreams", "investments", "non-mandatory", "mandatory"]
+
+        remaining_to_pay = amount
+        transactions_made = []
+
+        for env in hierarchy:
+            if remaining_to_pay <= 0:
+                break
+                
+            env_balance = balances.get(env, 0)
+            
+            if env == hierarchy[-1]:
+                spend_from_this = remaining_to_pay
+            else:
+                spend_from_this = min(env_balance, remaining_to_pay)
+                if spend_from_this <= 0: continue 
+
+            balances[env] -= spend_from_this
+            remaining_to_pay -= spend_from_this
+            
+            import uuid
+            from datetime import datetime
+            t_id = str(uuid.uuid4())[:8]
+            date_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            
+            final_comment = comment
+            if env != home_env:
+                final_comment = f"{comment} [⚠️ Taken from {env.upper()}]".strip()
+            
+            row = [t_id, date_str, "EXPENSE", category, f"{spend_from_this:.2f}", env, final_comment]
+            transactions_made.append(row)
+
         self._save_json(self.balances_path, balances)
-        self._log_transaction("EXPENSE", cat, f"{amount:.2f} UAH", env)
-        return env, balances
+        import csv
+        with open(self.history_path, 'a', newline='', encoding='utf-8') as f:
+            csv.writer(f).writerows(transactions_made)
+
+        return balances, None
 
     def flush_leftovers(self):
         balances = self._load_json(self.balances_path)
