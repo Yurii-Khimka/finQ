@@ -58,7 +58,11 @@ class FinanceManager:
         self._log_transaction("INCOME", "Total", amt_str, "Distributed")
         return balances
 
-    def add_expense(self, category, amount, comment=""):
+    def add_expense(self, category, amount):
+        """
+        Processes expense with a fixed Waterfall logic.
+        The Home Envelope is ALWAYS prioritized first.
+        """
         categories = self._load_json(self.categories_path)
         if category not in categories:
             return None, "Category not found."
@@ -66,23 +70,23 @@ class FinanceManager:
         home_env = categories[category]
         balances = self._load_json(self.balances_path)
         
-        # Define priority based on the category's home envelope
-        if home_env == "non_mandatory":
-            hierarchy = ["non_mandatory", "mandatory", "investments", "dreams"]
-        else:
-            hierarchy = ["mandatory", "non_mandatory", "investments", "dreams"]
+        # 1. Define the absolute priority order
+        base_priority = ["mandatory", "non_mandatory", "investments", "dreams"]
+        
+        # 2. Reorganize: Put home_env first, then the rest in base order
+        hierarchy = [home_env]
+        for env in base_priority:
+            if env not in hierarchy:
+                hierarchy.append(env)
 
         remaining = amount
-        breach_data = {} # To store virtual "Budget Breaches"
+        breach_data = {}
 
         for env in hierarchy:
-            if remaining <= 0:
-                break
-                
+            if remaining <= 0: break
             current_bal = balances.get(env, 0)
             
-            # If it's the last envelope (Dreams), allow it to go negative
-            if env == hierarchy[-1]:
+            if env == "dreams": # Final buffer
                 take = remaining
             else:
                 take = min(current_bal, remaining)
@@ -91,27 +95,18 @@ class FinanceManager:
             balances[env] -= take
             remaining -= take
             
-            # If we took money from a non-home envelope, record it
+            # Record as breach ONLY if we take from an envelope that IS NOT the home one
             if env != home_env:
-                # We normalize names (non-mandatory -> non_mandatory) for JSON
-                env_key = env.lower().replace("-", "_")
-                breach_data[env_key] = round(take, 2)
+                breach_data[env.lower().replace("-", "_")] = round(take, 2)
 
-        # 7th column logic: "OK" if within budget, else JSON string of breaches
-        details = "OK"
+        details = json.dumps(breach_data) if breach_data else "OK"
         note = None
         if breach_data:
-            details = json.dumps(breach_data)
-            # Short notification for the user to see in CLI after transaction
             breach_list = [f"{v} UAH from {k.upper()}" for k, v in breach_data.items()]
             note = f"⚠️ Budget Breach: {', '.join(breach_list)}"
 
-        # Save updated balances
         self._save_json(self.balances_path, balances)
-        
-        # Log AS A SINGLE TRANSACTION (7 columns)
         self._log_transaction("EXPENSE", category, f"{amount:.2f} UAH", home_env, details)
-
         return balances, note
 
     def flush_leftovers(self):
