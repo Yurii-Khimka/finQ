@@ -61,18 +61,18 @@ def main():
             base_currency = get_base_currency()
             ui.display_daily_budget(bal.get("mandatory", 0), bal.get("non_mandatory", 0), days, usd, eur, base_currency)
         except: ui.show_error("Usage: fq db <days>")
-    elif cmd in ["buy", "b"] and len(sys.argv) == 4:
+    elif cmd in ["buy", "b"] and len(sys.argv) in [4, 5]:
         try:
-            # add_expense now returns (balances, note)
-            balances, note = manager.add_expense(sys.argv[2], float(sys.argv[3]))
+            currency = sys.argv[4].upper() if len(sys.argv) == 5 else "UAH"
+            balances, note = manager.add_expense(sys.argv[2], float(sys.argv[3]), currency)
             if balances:
                 show_dashboard(balances)
                 if note:
-                    print(f"\n{note}") # Print breach warning below dashboard
+                    print(f"\n{note}")  # Print breach warning below dashboard
             else:
                 ui.show_error("Transaction failed. Check category name.")
         except Exception as e:
-            ui.show_error(f"Usage: fq b <cat> <amt>. Error: {e}")
+            ui.show_error(f"Usage: fq b <cat> <amt> [usd|eur]. Error: {e}")
     elif cmd in ["earn", "e"] and len(sys.argv) >= 3:
         try:
             amount = float(sys.argv[2])

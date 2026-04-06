@@ -1,3 +1,5 @@
+import json
+
 class FinanceUI:
     @staticmethod
     def display_summary(balances, usd_rate=None, eur_rate=None, last_transactions=None, base_currency="UAH"):
@@ -182,22 +184,26 @@ class FinanceUI:
         total_expense = 0.0
 
         for row in rows:
-            t_id, date, t_type, cat, amt_str, env, details = row
+            t_id, date, t_type, cat, amt_str, env = row[:6]
+            details = row[6] if len(row) > 6 else "OK"
             marker = "[!]" if details != "OK" else "   "
-            
+
+            # AMOUNT column already encodes FX info (e.g. "1500.00 USD (41250.00 UAH)")
+            display_amt = amt_str
+
             # Calculation logic for summary
             try:
-                # Extract UAH value from strings like '100.00 UAH' or '... (100.00 UAH)'
+                # Legacy rows stored "1000.00 USD (41500.00 UAH)" in AMOUNT_UAH
                 if "(" in amt_str:
                     val = float(amt_str.split("(")[1].split()[0])
                 else:
                     val = float(amt_str.split()[0])
-                
+
                 if t_type == "INCOME": total_income += val
                 elif t_type == "EXPENSE": total_expense += val
             except (ValueError, IndexError): pass
 
-            print(f"{t_id:<9} | {date:<16} | {t_type:<8} | {cat:<15} | {amt_str:<30} | {env.upper():<12} | {marker}")
+            print(f"{t_id:<9} | {date:<16} | {t_type:<8} | {cat:<15} | {display_amt:<30} | {env.upper():<12} | {marker}")
         
         print("-" * 115)
         print(f"💰 SUMMARY FOR THIS PERIOD:")
@@ -223,7 +229,7 @@ class FinanceUI:
         print(f"{'fq cs':<22} - 📈 Monthly Category Stats (Expenses)")
         print(f"{'fq ac':<22} - 📂 List Categories")
         print(f"{'fq db <days>':<22} - 📅 Calculate Daily Budget")
-        print(f"{'fq b <cat> <amt>':<22} - 💸 Record Expense (e.g., fq b taxi 80)")
+        print(f"{'fq b <cat> <amt> [cur]':<22} - 💸 Record Expense (e.g., fq b taxi 80 | fq b taxi 2 usd)")
         print(f"{'fq e <amt> [flags]':<22} - 💰 Record Income (flags: usd, eur, salary)")
         print(f"{'fq rm <id>':<22} - 🗑️  Remove transaction & restore balance")
         print(f"{'fq sync <total>':<22} - 🔄 Proportional balance adjustment")
@@ -239,6 +245,9 @@ class FinanceUI:
         print("6. Transaction this month:    fq ls")
         print("7. All Transaction:           fq ls all")
         print("8. Transaction select month:  fq ls 04 or 4")
-        
+        print()
+        print("   fq b taxi 3 usd      | fq b food 5 eur      | fq b groceries 500")
+        print("   fq e 1000 usd        | fq e 850 eur salary")
+
         print("\n⚠️  PRO TIP: Use 'salary' flag to flush leftovers to 'Dreams'.")
         print("=" * 75 + "\n")

@@ -55,59 +55,80 @@ class FinanceManager:
         for env, pct in self.income_rules.items():
             balances[env] = balances.get(env, 0) + (amount_uah * pct)
         self._save_json(self.balances_path, balances)
-        amt_str = f"{orig_amt:.2f} {curr} ({amount_uah:.2f} UAH)" if curr != "UAH" else f"{amount_uah:.2f} UAH"
-        self._log_transaction("INCOME", "Total", amt_str, "Distributed")
+        # FX income: encode original amount in the AMOUNT column; DETAILS is always "OK"
+        if curr != "UAH" and orig_amt is not None:
+            amt_str = f"{orig_amt:.2f} {curr} ({amount_uah:.2f} UAH)"
+        else:
+            amt_str = f"{amount_uah:.2f} UAH"
+        self._log_transaction("INCOME", "Total", amt_str, "Distributed", "OK")
         return balances
 
-    def add_expense(self, category, amount):
+    def add_expense(self, category, amount, currency="UAH"):
         """
         Processes expense with a fixed Waterfall logic.
         The Home Envelope is ALWAYS prioritized first.
+        If currency != "UAH", converts amount to UAH via live NBU rate before
+        running the waterfall. DETAILS contains breach data only; FX info is
+        not stored (UAH equivalent is what the waterfall operates on).
         """
         categories = self._load_json(self.categories_path)
         if category not in categories:
             return None, "Category not found."
 
+        # Convert to UAH if a foreign currency is supplied
+        if currency != "UAH":
+            rate = self.get_rate(currency)
+            if rate is None:
+                return None, f"Could not fetch rate for {currency}. Transaction aborted."
+            amount_uah = amount * rate
+        else:
+            amount_uah = amount
+            rate = None
+
         home_env = categories[category]
         balances = self._load_json(self.balances_path)
-        
+
         # 1. Define the absolute priority order
         base_priority = ["mandatory", "non_mandatory", "investments", "dreams"]
-        
+
         # 2. Reorganize: Put home_env first, then the rest in base order
         hierarchy = [home_env]
         for env in base_priority:
             if env not in hierarchy:
                 hierarchy.append(env)
 
-        remaining = amount
+        remaining = amount_uah
         breach_data = {}
 
         for env in hierarchy:
-            if remaining <= 0: break
+            if remaining <= 0:
+                break
             current_bal = balances.get(env, 0)
-            
-            if env == "dreams": # Final buffer
+
+            if env == "dreams":  # Final buffer
                 take = remaining
             else:
                 take = min(current_bal, remaining)
-                if take <= 0: continue 
+                if take <= 0:
+                    continue
 
             balances[env] -= take
             remaining -= take
-            
+
             # Record as breach ONLY if we take from an envelope that IS NOT the home one
             if env != home_env:
                 breach_data[env.lower().replace("-", "_")] = round(take, 2)
 
+        # DETAILS contains breach data only; FX metadata lives in the AMOUNT column
         details = json.dumps(breach_data) if breach_data else "OK"
+
         note = None
         if breach_data:
             breach_list = [f"{v} UAH from {k.upper()}" for k, v in breach_data.items()]
             note = f"⚠️ Budget Breach: {', '.join(breach_list)}"
 
         self._save_json(self.balances_path, balances)
-        self._log_transaction("EXPENSE", category, f"{amount:.2f} UAH", home_env, details)
+        self._log_transaction("EXPENSE", category, f"{amount_uah:.2f} UAH", home_env, details)
         return balances, note
 
     def flush_leftovers(self):
@@ -195,7 +216,12 @@ class FinanceManager:
         home_env = target_row[5]
         details = target_row[6] if len(target_row) > 6 else "OK"
         
-        amount = float(amt_str.split()[0])
+        # Parse UAH amount — handle legacy rows that stored "1000.00 USD (41500.00 UAH)"
+        if "(" in amt_str:
+            amount = float(amt_str.split("(")[1].split()[0])
+        else:
+            amount = float(amt_str.split()[0])
+
         balances = self._load_json(self.balances_path)
 
         if t_type == "EXPENSE":
@@ -203,10 +229,13 @@ class FinanceManager:
                 balances[home_env] += amount
             else:
                 try:
-                    breach_data = json.loads(details)
+                    details_dict = json.loads(details)
+                    # Only envelope keys are valid reversal targets;
+                    # metadata keys like "original" and "rate" are skipped.
+                    valid_envelopes = {"mandatory", "non_mandatory", "investments", "dreams"}
                     borrowed_total = 0
-                    for env, borrowed_amt in breach_data.items():
-                        if env in balances:
+                    for env, borrowed_amt in details_dict.items():
+                        if env in valid_envelopes and env in balances:
                             balances[env] += borrowed_amt
                             borrowed_total += borrowed_amt
                     balances[home_env] += (amount - borrowed_total)
@@ -214,7 +243,9 @@ class FinanceManager:
                     balances[home_env] += amount
 
         elif t_type == "INCOME":
-            balances[home_env] -= amount
+            # Reverse the 50/30/10/10 split across all four envelopes
+            for env, pct in self.income_rules.items():
+                balances[env] = balances.get(env, 0) - (amount * pct)
 
         new_history = [row for row in history if row[0] != t_id]
         with open(self.history_path, 'w', newline='', encoding='utf-8') as f:
