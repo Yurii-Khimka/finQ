@@ -1,3 +1,15 @@
+## [1.3.1] - 2026-04-06
+
+### 🚀 Added
+- **Multi-Currency Expenses (`fq b <cat> <amt> [usd|eur]`)**: Expenses can now be entered in USD or EUR — the amount is converted to UAH via a live NBU rate before the waterfall runs. (#24)
+
+### 🛠️ Fixed
+- **Income Removal Reversal**: `fq rm` on an income transaction now correctly reverses the full 50/30/10/10 split across all four envelopes instead of subtracting from a single one. (#24)
+- **Expense Removal Guard**: Stale or unexpected keys in DETAILS metadata are filtered against valid envelopes before reversal, preventing balance corruption on legacy rows. (#24)
+- **History Period Totals**: `fq ls` now correctly parses the `"1500.00 USD (41250.00 UAH)"` amount format when computing period totals. (#24)
+
+---
+
 ## [1.3.0] - 2026-04-06
 
 ### 🚀 Added
