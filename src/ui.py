@@ -1,27 +1,61 @@
 class FinanceUI:
     @staticmethod
-    def display_summary(balances, usd_rate=None, eur_rate=None, last_transactions=None):
-        """Displays the main dashboard with 3-currency overview."""
+    def display_summary(balances, usd_rate=None, eur_rate=None, last_transactions=None, base_currency="UAH"):
+        """
+        Displays the main dashboard.
+        If base_currency is UAH: shows three columns (UAH | USD | EUR).
+        If base_currency is USD or EUR: shows a single column in that currency.
+        """
         def conv(val, rate): return val / rate if rate else 0
 
-        print("\n" + "=" * 78)
-        print(f"{'ENVELOPE':<18} | {'UAH':>14} | {'USD':>12} | {'EUR':>12}")
-        print("-" * 78)
-
-        keys = [("Mandatory", "mandatory"), ("Non-Mandatory", "non_mandatory"), 
+        keys = [("Mandatory", "mandatory"), ("Non-Mandatory", "non_mandatory"),
                 ("Investments", "investments"), ("Dreams", "dreams")]
-
-        for label, key in keys:
-            val = balances.get(key, 0)
-            print(f"{label:<18} | {val:>14.2f} | {conv(val, usd_rate):>12.2f} | {conv(val, eur_rate):>12.2f}")
 
         total = sum(balances.values())
         spendable = balances.get("mandatory", 0) + balances.get("non_mandatory", 0)
 
-        print("-" * 78)
-        print(f"{'TOTAL ACCOUNT':<18} | {total:>14.2f} | {conv(total, usd_rate):>12.2f} | {conv(total, eur_rate):>12.2f}")
-        print(f"{'SPENDABLE NOW':<18} | {spendable:>14.2f} | {conv(spendable, usd_rate):>12.2f} | {conv(spendable, eur_rate):>12.2f}")
-        print("=" * 78)
+        if base_currency == "UAH":
+            # Full three-currency grid
+            print("\n" + "=" * 78)
+            print(f"{'ENVELOPE':<18} | {'UAH':>14} | {'USD':>12} | {'EUR':>12}")
+            print("-" * 78)
+
+            for label, key in keys:
+                val = balances.get(key, 0)
+                print(f"{label:<18} | {val:>14.2f} | {conv(val, usd_rate):>12.2f} | {conv(val, eur_rate):>12.2f}")
+
+            print("-" * 78)
+            print(f"{'TOTAL ACCOUNT':<18} | {total:>14.2f} | {conv(total, usd_rate):>12.2f} | {conv(total, eur_rate):>12.2f}")
+            print(f"{'SPENDABLE NOW':<18} | {spendable:>14.2f} | {conv(spendable, usd_rate):>12.2f} | {conv(spendable, eur_rate):>12.2f}")
+            print("=" * 78)
+        else:
+            # Single-currency view — convert all UAH values to the chosen currency
+            rate = usd_rate if base_currency == "USD" else eur_rate
+
+            if rate is None:
+                print(f"\n[!] Rate unavailable — showing UAH (base currency: {base_currency})")
+                print("\n" + "=" * 48)
+                print(f"{'ENVELOPE':<18} | {'UAH':>26}")
+                print("-" * 48)
+                for label, key in keys:
+                    val = balances.get(key, 0)
+                    print(f"{label:<18} | {val:>26.2f}")
+                print("-" * 48)
+                print(f"{'TOTAL ACCOUNT':<18} | {total:>26.2f}")
+                print(f"{'SPENDABLE NOW':<18} | {spendable:>26.2f}")
+                print("=" * 48)
+            else:
+                col_label = base_currency
+                print("\n" + "=" * 48)
+                print(f"{'ENVELOPE':<18} | {col_label:>26}")
+                print("-" * 48)
+                for label, key in keys:
+                    val = conv(balances.get(key, 0), rate)
+                    print(f"{label:<18} | {val:>26.2f}")
+                print("-" * 48)
+                print(f"{'TOTAL ACCOUNT':<18} | {conv(total, rate):>26.2f}")
+                print(f"{'SPENDABLE NOW':<18} | {conv(spendable, rate):>26.2f}")
+                print("=" * 48)
 
         if last_transactions:
             print("\n🕒 RECENT ACTIVITY:")
@@ -59,24 +93,55 @@ class FinanceUI:
         print("\n")
 
     @staticmethod
-    def display_daily_budget(mand, non_mand, days, usd, eur):
-        """Displays daily limits with envelope breakdown and headers."""
+    def display_daily_budget(mand, non_mand, days, usd, eur, base_currency="UAH"):
+        """
+        Displays daily limits with envelope breakdown.
+        If base_currency is UAH: three-currency grid.
+        If base_currency is USD or EUR: single-column in that currency.
+        """
         def conv(val, rate): return val / rate if rate else 0
-        
+
         # Calculate daily slices for each spendable envelope
         d_mand = mand / days
         d_non = non_mand / days
         d_total = (mand + non_mand) / days
 
-        print("\n" + f"📅 DAILY LIMITS (For {days} days)")
-        print("-" * 65)
-        print(f"{'TYPE':<18} | {'UAH':>14} | {'USD':>12} | {'EUR':>12}")
-        print("-" * 65)
-        print(f"{'Mandatory':<18} | {d_mand:>14.2f} | {conv(d_mand, usd):>12.2f} | {conv(d_mand, eur):>12.2f}")
-        print(f"{'Non-Mandatory':<18} | {d_non:>14.2f} | {conv(d_non, usd):>12.2f} | {conv(d_non, eur):>12.2f}")
-        print("-" * 65)
-        print(f"{'DAILY TOTAL':<18} | {d_total:>14.2f} | {conv(d_total, usd):>12.2f} | {conv(d_total, eur):>12.2f}")
-        print("-" * 65 + "\n")
+        if base_currency == "UAH":
+            print("\n" + f"📅 DAILY LIMITS (For {days} days)")
+            print("-" * 65)
+            print(f"{'TYPE':<18} | {'UAH':>14} | {'USD':>12} | {'EUR':>12}")
+            print("-" * 65)
+            print(f"{'Mandatory':<18} | {d_mand:>14.2f} | {conv(d_mand, usd):>12.2f} | {conv(d_mand, eur):>12.2f}")
+            print(f"{'Non-Mandatory':<18} | {d_non:>14.2f} | {conv(d_non, usd):>12.2f} | {conv(d_non, eur):>12.2f}")
+            print("-" * 65)
+            print(f"{'DAILY TOTAL':<18} | {d_total:>14.2f} | {conv(d_total, usd):>12.2f} | {conv(d_total, eur):>12.2f}")
+            print("-" * 65 + "\n")
+        else:
+            # Single-currency view
+            rate = usd if base_currency == "USD" else eur
+
+            if rate is None:
+                print(f"\n[!] Rate unavailable — showing UAH (base currency: {base_currency})")
+                print("\n" + f"📅 DAILY LIMITS (For {days} days)")
+                print("-" * 48)
+                print(f"{'TYPE':<18} | {'UAH':>26}")
+                print("-" * 48)
+                print(f"{'Mandatory':<18} | {d_mand:>26.2f}")
+                print(f"{'Non-Mandatory':<18} | {d_non:>26.2f}")
+                print("-" * 48)
+                print(f"{'DAILY TOTAL':<18} | {d_total:>26.2f}")
+                print("-" * 48 + "\n")
+            else:
+                col_label = base_currency
+                print("\n" + f"📅 DAILY LIMITS (For {days} days)")
+                print("-" * 48)
+                print(f"{'TYPE':<18} | {col_label:>26}")
+                print("-" * 48)
+                print(f"{'Mandatory':<18} | {conv(d_mand, rate):>26.2f}")
+                print(f"{'Non-Mandatory':<18} | {conv(d_non, rate):>26.2f}")
+                print("-" * 48)
+                print(f"{'DAILY TOTAL':<18} | {conv(d_total, rate):>26.2f}")
+                print("-" * 48 + "\n")
 
     @staticmethod
     def display_categories(sorted_categories):
@@ -145,6 +210,9 @@ class FinanceUI:
     def show_error(msg): print(f"❌ ERROR: {msg}")
 
     @staticmethod
+    def show_info(msg): print(f"[OK] {msg}")
+
+    @staticmethod
     def display_help():
         """Full command reference with usage examples."""
         print("\n" + "=" * 75)
@@ -159,7 +227,8 @@ class FinanceUI:
         print(f"{'fq e <amt> [flags]':<22} - 💰 Record Income (flags: usd, eur, salary)")
         print(f"{'fq rm <id>':<22} - 🗑️  Remove transaction & restore balance")
         print(f"{'fq sync <total>':<22} - 🔄 Proportional balance adjustment")
-        
+        print(f"{'fq cc <UAH|USD|EUR>':<22} - 💱 Set base display currency")
+
         print("\n💡 EXAMPLES & USE CASES:")
         print("-" * 75)
         print("1. Salary (USD):              fq e 1500 usd salary")
