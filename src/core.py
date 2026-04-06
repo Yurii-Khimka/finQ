@@ -12,6 +12,7 @@ class FinanceManager:
         self.balances_path = os.path.join(data_dir, "balances.json")
         self.categories_path = os.path.join(data_dir, "categories.json")
         self.history_path = os.path.join(data_dir, "history.csv")
+        self.config_path = os.path.join(data_dir, "config.json")
 
         self.income_rules = {
             "mandatory": 0.50,
@@ -232,15 +233,46 @@ class FinanceManager:
     def get_sorted_categories(self):
         """Returns categories sorted by strict financial priority."""
         categories = self._load_json(self.categories_path)
-        
+
         priority = {
             "mandatory": 1,
             "non_mandatory": 2,
             "investments": 3,
             "dreams": 4
         }
-        
+
         return sorted(
-            categories.items(), 
+            categories.items(),
             key=lambda x: (priority.get(x[1].lower(), 99), x[0])
         )
+
+    def load_config(self):
+        """Returns the app config dict. Falls back to defaults if file is missing or corrupt."""
+        defaults = {"base_currency": "UAH"}
+        if not os.path.exists(self.config_path):
+            return defaults
+        try:
+            config = self._load_json(self.config_path)
+            if "base_currency" not in config:
+                config["base_currency"] = "UAH"
+            return config
+        except json.JSONDecodeError:
+            return defaults
+
+    def save_config(self, config):
+        """Persists the config dict to data/config.json."""
+        self._save_json(self.config_path, config)
+
+    def set_base_currency(self, currency):
+        """
+        Validates and saves the requested base currency.
+        Returns (config, None) on success or (None, error_msg) on failure.
+        """
+        valid = {"UAH", "USD", "EUR"}
+        upper = currency.upper()
+        if upper not in valid:
+            return None, f"Invalid currency '{currency}'. Choose from: UAH, USD, EUR."
+        config = self.load_config()
+        config["base_currency"] = upper
+        self.save_config(config)
+        return config, None

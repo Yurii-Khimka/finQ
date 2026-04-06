@@ -12,9 +12,13 @@ def main():
     def get_rates():
         return manager.get_rate("USD"), manager.get_rate("EUR")
 
+    def get_base_currency():
+        return manager.load_config().get("base_currency", "UAH")
+
     def show_dashboard(balances):
         usd, eur = get_rates()
-        ui.display_summary(balances, usd, eur, manager.get_last_transactions())
+        base_currency = get_base_currency()
+        ui.display_summary(balances, usd, eur, manager.get_last_transactions(), base_currency)
 
     if len(sys.argv) < 2:
         show_dashboard(manager._load_json(manager.balances_path))
@@ -54,7 +58,8 @@ def main():
             days = int(sys.argv[2])
             bal = manager._load_json(manager.balances_path)
             usd, eur = get_rates()
-            ui.display_daily_budget(bal.get("mandatory",0), bal.get("non_mandatory",0), days, usd, eur)
+            base_currency = get_base_currency()
+            ui.display_daily_budget(bal.get("mandatory", 0), bal.get("non_mandatory", 0), days, usd, eur, base_currency)
         except: ui.show_error("Usage: fq db <days>")
     elif cmd in ["buy", "b"] and len(sys.argv) == 4:
         try:
@@ -83,6 +88,12 @@ def main():
     elif cmd in ["sync", "s"] and len(sys.argv) == 3:
         try: show_dashboard(manager.sync_balance(float(sys.argv[2])))
         except: ui.show_error("Usage: fq s <total>")
+    elif cmd == "cc" and len(sys.argv) == 3:
+        config, error = manager.set_base_currency(sys.argv[2])
+        if error:
+            ui.show_error(error)
+        else:
+            ui.show_info(f"Base currency set to: {config['base_currency']}")
     elif cmd == "hard-reset":
         if input("⚠️ Wipe data? (y/n): ").lower() == 'y':
             manager._save_json(manager.balances_path, {"mandatory":0,"non_mandatory":0,"investments":0,"dreams":0})
