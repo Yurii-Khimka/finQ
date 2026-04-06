@@ -1,0 +1,7 @@
+data/          # Твої CSV та JSON з тисячами рядків — це пожирачі токенів!
+__pycache__/
+.git/
+*.png
+*.jpg
+.DS_Store
+.cursorrules
