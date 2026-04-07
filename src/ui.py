@@ -213,6 +213,94 @@ class FinanceUI:
         print("=" * 115 + "\n")
 
     @staticmethod
+    def display_audit(data: dict) -> None:
+        """Renders the monthly budget audit report with breach summary and burn rate forecast."""
+        from datetime import datetime
+
+        W = 65
+        thick = "=" * W
+        thin = "-" * W
+
+        month_label = datetime.now().strftime("%B %Y").upper()
+
+        health_raw = data.get("health_signal", "healthy")
+        if health_raw == "healthy":
+            health_display = "✅ HEALTHY"
+        elif health_raw == "warning":
+            health_display = "⚠  WARNING"
+        else:
+            health_display = "!! CRITICAL"
+
+        breach_count = data.get("breach_count", 0)
+        breach_total = data.get("breach_total_uah", 0.0)
+        breach_by_env = data.get("breach_by_envelope", {})
+        top_breaches = data.get("top_breaches", [])
+        total_spent = data.get("total_spent_uah", 0.0)
+        burn_rate = data.get("burn_rate_daily", 0.0)
+        days_remaining = data.get("days_remaining", 0)
+        days_to_zero = data.get("days_to_zero", float("inf"))
+        safe_daily = data.get("safe_daily_limit", 0.0)
+
+        print("\n" + thick)
+        print(f"  BUDGET AUDIT — {month_label}")
+        print(thick)
+        print(f"  Health Signal       : {health_display}")
+
+        # BREACH SUMMARY
+        print()
+        print("  BREACH SUMMARY")
+        print("  " + thin)
+        if breach_count == 0:
+            print("  No budget breaches this month.")
+        else:
+            print(f"  Breach count        : {breach_count:>3} transactions")
+            print(f"  Total borrowed      : {breach_total:>12,.2f} UAH")
+
+            env_labels = {
+                "non_mandatory": "From Non-Mandatory  ",
+                "investments":   "From Investments    ",
+                "dreams":        "From Dreams         ",
+            }
+            for env_key in ["non_mandatory", "investments", "dreams"]:
+                val = breach_by_env.get(env_key, 0.0)
+                if val > 0:
+                    label = env_labels[env_key]
+                    print(f"  {label}: {val:>12,.2f} UAH")
+
+        # FORECAST
+        print()
+        print("  FORECAST")
+        print("  " + thin)
+        print(f"  Total spent (month) : {total_spent:>12,.2f} UAH")
+        print(f"  Burn rate / day     : {burn_rate:>12,.2f} UAH")
+        print(f"  Days remaining      : {days_remaining:>10} days")
+
+        if days_to_zero == float("inf"):
+            days_to_zero_str = "inf (no spending yet)"
+        else:
+            days_to_zero_str = f"{days_to_zero:>9.1f} days"
+        print(f"  Days to zero        : {days_to_zero_str}")
+        print(f"  Safe daily limit    : {safe_daily:>12,.2f} UAH")
+
+        # TOP BREACHES
+        if top_breaches:
+            print()
+            print("  TOP BREACHES")
+            print("  " + thin)
+            print(f"  {'DATE':<12} {'CATEGORY':<16}  {'AMOUNT':<10}  {'BORROWED'}")
+            print(f"  {'-'*11} {'--' * 8}  {'--' * 5}  {'--' * 5}")
+            for b in top_breaches:
+                date_short = b["date"][:10]
+                cat = b["category"]
+                amt = b["amount"]
+                breach_amt = b["breach"]
+                from_envs = ", ".join(k for k in b.get("from", {}).keys())
+                borrowed_str = f"{breach_amt:,.2f} {from_envs}"
+                print(f"  {date_short:<12} {cat:<16}  {amt:<10,.2f}  {borrowed_str}")
+
+        print(thick + "\n")
+
+    @staticmethod
     def show_error(msg): print(f"❌ ERROR: {msg}")
 
     @staticmethod
