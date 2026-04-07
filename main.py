@@ -68,7 +68,7 @@ def main():
             if balances:
                 show_dashboard(balances)
                 if note:
-                    print(f"\n{note}")  # Print breach warning below dashboard
+                    ui.show_warning(note)
             else:
                 ui.show_error("Transaction failed. Check category name.")
         except Exception as e:
