@@ -141,10 +141,12 @@ class FinanceManager:
         return total
 
     def get_monthly_stats(self):
-        """Aggregates spending per category for the current month. Corrected for 7-column schema."""
+        """Aggregates spending per category for the current month. Breach-aware virtual splitting across all 4 envelopes."""
         stats = {
-        "mandatory": {"total": 0.0, "cats": {}},
-        "non_mandatory": {"total": 0.0, "cats": {}}
+            "mandatory": {"total": 0.0, "cats": {}},
+            "non_mandatory": {"total": 0.0, "cats": {}},
+            "investments": {"total": 0.0, "cats": {}},
+            "dreams": {"total": 0.0, "cats": {}}
         }
         current_month = datetime.now().strftime("%Y-%m")
         if not os.path.exists(self.history_path): return stats
@@ -152,18 +154,46 @@ class FinanceManager:
         with open(self.history_path, 'r', encoding='utf-8') as f:
             reader = csv.reader(f)
             for row in reader:
-                if not row or len(row) < 6: continue 
-                # Unpacking ID, Date, Type, Cat, Amount, Envelope, Details
-                t_id, date, t_type, cat, amt_str, env = row[:6] # Беремо перші 6, ігноруючи решту
-                
+                if not row or len(row) < 6: continue
+                t_id, date, t_type, cat, amt_str, env = row[:6]
+
                 if t_type == "EXPENSE" and date.startswith(current_month):
+                    # Parse UAH amount — handle FX rows: "1500.00 USD (41250.00 UAH)"
                     try:
-                        val = float(amt_str.replace("UAH", "").strip())
-                        env_key = env.lower().replace("-", "_")
-                        if env_key in stats:
-                            stats[env_key]["total"] += val
-                            stats[env_key]["cats"][cat] = stats[env_key]["cats"].get(cat, 0) + val
-                    except: continue
+                        if "(" in amt_str:
+                            amount = float(amt_str.split("(")[1].split()[0])
+                        else:
+                            amount = float(amt_str.split()[0])
+                    except (ValueError, IndexError):
+                        continue
+
+                    env_key = env.lower().replace("-", "_")
+                    details_str = row[6] if len(row) > 6 else "OK"
+
+                    if details_str == "OK":
+                        # No breach — full amount to home envelope category
+                        stats[env_key]["cats"][cat] = stats[env_key]["cats"].get(cat, 0) + amount
+                        stats[env_key]["total"] += amount
+                    else:
+                        try:
+                            breach_data = json.loads(details_str)
+                            valid_envelopes = {"mandatory", "non_mandatory", "investments", "dreams"}
+                            borrowed_total = sum(v for k, v in breach_data.items() if k in valid_envelopes)
+                            home_contribution = max(amount - borrowed_total, 0.0)
+
+                            # Home envelope gets only what it actually covered
+                            stats[env_key]["cats"][cat] = stats[env_key]["cats"].get(cat, 0) + home_contribution
+                            stats[env_key]["total"] += home_contribution
+
+                            # Each breached envelope gets a "Budget Breach" virtual row
+                            for breach_env, breach_amt in breach_data.items():
+                                if breach_env in valid_envelopes and breach_env in stats:
+                                    stats[breach_env]["cats"]["Budget Breach"] = stats[breach_env]["cats"].get("Budget Breach", 0) + breach_amt
+                                    stats[breach_env]["total"] += breach_amt
+                        except (ValueError, json.JSONDecodeError):
+                            # Fallback: treat as OK
+                            stats[env_key]["cats"][cat] = stats[env_key]["cats"].get(cat, 0) + amount
+                            stats[env_key]["total"] += amount
         return stats
 
     def get_audit_data(self) -> dict:
