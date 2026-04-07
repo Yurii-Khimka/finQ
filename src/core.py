@@ -309,9 +309,6 @@ class FinanceManager:
 
     def _log_transaction(self, t_type, cat, amt_str, env, details="OK"):
         """Logs transaction with the new 7-column standard."""
-        import uuid
-        from datetime import datetime
-        
         t_id = str(uuid.uuid4())[:8]
         date_str = datetime.now().strftime("%Y-%m-%d %H:%M")
         
@@ -351,7 +348,7 @@ class FinanceManager:
         if not target_row:
             return None, f"Transaction ID '{t_id}' not found."
 
-        # Безпечне розпакування: якщо колонок менше 7, ставимо "OK" за замовчуванням
+        # Safe unpacking: if fewer than 7 columns, default to "OK"
         t_type = target_row[2]
         amt_str = target_row[4]
         home_env = target_row[5]

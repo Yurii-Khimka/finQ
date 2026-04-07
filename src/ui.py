@@ -275,10 +275,13 @@ class FinanceUI:
         print(f"  Burn rate / day     : {burn_rate:>12,.2f} UAH")
         print(f"  Days remaining      : {days_remaining:>10} days")
 
-        if data["days_to_zero"] == float("inf"):
+        dtoz = data["days_to_zero"]
+        if dtoz == float("inf"):
             days_to_zero_str = "∞ (no spending yet)"
+        elif dtoz <= 0:
+            days_to_zero_str = "0.0 days (overdrawn)"
         else:
-            days_to_zero_str = f"{days_to_zero:>9.1f} days"
+            days_to_zero_str = f"{dtoz:>9.1f} days"
         print(f"  Days to zero        : {days_to_zero_str}")
         print(f"  Safe daily limit    : {safe_daily:>12,.2f} UAH")
 
@@ -302,6 +305,10 @@ class FinanceUI:
 
     @staticmethod
     def show_error(msg): print(f"❌ ERROR: {msg}")
+
+    @staticmethod
+    def show_warning(msg):
+        print(f"\n  [!] {msg}")
 
     @staticmethod
     def show_info(msg): print(f"[OK] {msg}")
