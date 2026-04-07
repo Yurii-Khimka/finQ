@@ -218,14 +218,15 @@ class FinanceManager:
                             breach_by_envelope[env_key] += amt
                             breach_total_uah += amt
                             row_breach_total += amt
-                    breach_count += 1
-                    top_breaches_raw.append({
-                        "date": date,
-                        "category": cat,
-                        "amount": amount,
-                        "breach": row_breach_total,
-                        "from": breach_data,
-                    })
+                    if row_breach_total > 0:
+                        breach_count += 1
+                        top_breaches_raw.append({
+                            "date": date,
+                            "category": cat,
+                            "amount": amount,
+                            "breach": row_breach_total,
+                            "from": breach_data,
+                        })
                 except (ValueError, json.JSONDecodeError):
                     pass  # Malformed DETAILS — treat as OK
 

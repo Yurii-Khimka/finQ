@@ -225,9 +225,9 @@ class FinanceUI:
 
         health_raw = data.get("health_signal", "healthy")
         if health_raw == "healthy":
-            health_display = "✅ HEALTHY"
+            health_display = "[OK] HEALTHY"
         elif health_raw == "warning":
-            health_display = "⚠  WARNING"
+            health_display = "[!] WARNING"
         else:
             health_display = "!! CRITICAL"
 
@@ -257,14 +257,14 @@ class FinanceUI:
             print(f"  Total borrowed      : {breach_total:>12,.2f} UAH")
 
             env_labels = {
+                "mandatory":     "From Mandatory      ",
                 "non_mandatory": "From Non-Mandatory  ",
                 "investments":   "From Investments    ",
                 "dreams":        "From Dreams         ",
             }
-            for env_key in ["non_mandatory", "investments", "dreams"]:
+            for env_key, label in env_labels.items():
                 val = breach_by_env.get(env_key, 0.0)
                 if val > 0:
-                    label = env_labels[env_key]
                     print(f"  {label}: {val:>12,.2f} UAH")
 
         # FORECAST
@@ -275,8 +275,8 @@ class FinanceUI:
         print(f"  Burn rate / day     : {burn_rate:>12,.2f} UAH")
         print(f"  Days remaining      : {days_remaining:>10} days")
 
-        if days_to_zero == float("inf"):
-            days_to_zero_str = "inf (no spending yet)"
+        if data["days_to_zero"] == float("inf"):
+            days_to_zero_str = "∞ (no spending yet)"
         else:
             days_to_zero_str = f"{days_to_zero:>9.1f} days"
         print(f"  Days to zero        : {days_to_zero_str}")
@@ -322,6 +322,7 @@ class FinanceUI:
         print(f"{'fq rm <id>':<22} - 🗑️  Remove transaction & restore balance")
         print(f"{'fq sync <total>':<22} - 🔄 Proportional balance adjustment")
         print(f"{'fq cc <UAH|USD|EUR>':<22} - 💱 Set base display currency")
+        print(f"{'fq audit':<22} - Monthly breach summary and burn rate forecast")
 
         print("\n💡 EXAMPLES & USE CASES:")
         print("-" * 75)
