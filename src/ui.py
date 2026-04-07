@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 class FinanceUI:
     @staticmethod
@@ -215,8 +216,6 @@ class FinanceUI:
     @staticmethod
     def display_audit(data: dict) -> None:
         """Renders the monthly budget audit report with breach summary and burn rate forecast."""
-        from datetime import datetime
-
         W = 65
         thick = "=" * W
         thin = "-" * W

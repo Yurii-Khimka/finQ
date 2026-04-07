@@ -198,8 +198,6 @@ class FinanceManager:
 
     def get_audit_data(self) -> dict:
         """Returns breach summary and burn rate forecast for the current month."""
-        from datetime import datetime
-
         now = datetime.now()
         current_month = now.strftime("%Y-%m")
 
