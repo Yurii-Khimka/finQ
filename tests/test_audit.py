@@ -44,10 +44,9 @@ def manager(tmp_path):
 @contextmanager
 def freeze_datetime(frozen_dt):
     """
-    Patches datetime.datetime in the datetime module so that any
-    `from datetime import datetime` inside the code under test will
-    pick up FakeDatetime.now() = frozen_dt while keeping the
-    constructor and all other methods intact.
+    Patches datetime in src.core so that get_audit_data() sees a frozen
+    now(). core.py uses `from datetime import datetime`, so we must patch
+    the name as it appears in that module's namespace.
     """
     RealDatetime = datetime
 
@@ -56,7 +55,7 @@ def freeze_datetime(frozen_dt):
         def now(cls, tz=None):
             return frozen_dt
 
-    with patch("datetime.datetime", FakeDatetime):
+    with patch("src.core.datetime", FakeDatetime):
         yield
 
 
