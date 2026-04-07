@@ -166,6 +166,116 @@ class FinanceManager:
                     except: continue
         return stats
 
+    def get_audit_data(self) -> dict:
+        """Returns breach summary and burn rate forecast for the current month."""
+        from datetime import datetime
+
+        now = datetime.now()
+        current_month = now.strftime("%Y-%m")
+
+        balances = self._load_json(self.balances_path)
+        history = self.get_history()
+
+        breach_count = 0
+        breach_total_uah = 0.0
+        breach_by_envelope = {
+            "mandatory": 0.0,
+            "non_mandatory": 0.0,
+            "investments": 0.0,
+            "dreams": 0.0,
+        }
+        top_breaches_raw = []
+        total_spent_uah = 0.0
+
+        for row in history:
+            if not row or len(row) < 6:
+                continue
+            t_id, date, t_type, cat, amt_str, env = row[:6]
+            details = row[6] if len(row) > 6 else "OK"
+
+            if t_type != "EXPENSE" or not date.startswith(current_month):
+                continue
+
+            # Parse UAH amount — handle FX rows like "1500.00 USD (41250.00 UAH)"
+            try:
+                if "(" in amt_str:
+                    amount = float(amt_str.split("(")[1].split()[0])
+                else:
+                    amount = float(amt_str.split()[0])
+            except (ValueError, IndexError):
+                continue
+
+            total_spent_uah += amount
+
+            if details != "OK":
+                try:
+                    breach_data = json.loads(details)
+                    valid_envelopes = {"mandatory", "non_mandatory", "investments", "dreams"}
+                    row_breach_total = 0.0
+                    for env_key, breach_amt in breach_data.items():
+                        if env_key in valid_envelopes:
+                            amt = max(breach_amt, 0.0)
+                            breach_by_envelope[env_key] += amt
+                            breach_total_uah += amt
+                            row_breach_total += amt
+                    breach_count += 1
+                    top_breaches_raw.append({
+                        "date": date,
+                        "category": cat,
+                        "amount": amount,
+                        "breach": row_breach_total,
+                        "from": breach_data,
+                    })
+                except (ValueError, json.JSONDecodeError):
+                    pass  # Malformed DETAILS — treat as OK
+
+        # Burn rate and forecast
+        days_elapsed = max(now.day, 1)
+        burn_rate_daily = total_spent_uah / days_elapsed
+
+        # Days in current month — handle December rollover
+        year, month = now.year, now.month
+        if month == 12:
+            next_month_first = datetime(year + 1, 1, 1)
+        else:
+            next_month_first = datetime(year, month + 1, 1)
+        days_in_month = (next_month_first - datetime(year, month, 1)).days
+        days_remaining = max(days_in_month - now.day, 0)
+
+        spendable_balance = balances.get("mandatory", 0.0) + balances.get("non_mandatory", 0.0)
+
+        if burn_rate_daily == 0:
+            days_to_zero = float("inf")
+        else:
+            days_to_zero = spendable_balance / burn_rate_daily
+
+        safe_daily_limit = spendable_balance / days_remaining if days_remaining > 0 else 0.0
+
+        # Health signal
+        if burn_rate_daily == 0 or days_to_zero >= days_remaining:
+            health_signal = "healthy"
+        elif days_to_zero >= days_remaining * 0.5:
+            health_signal = "warning"
+        else:
+            health_signal = "critical"
+
+        # Sort top breaches by breach amount desc, take top 5
+        top_breaches = sorted(top_breaches_raw, key=lambda x: x["breach"], reverse=True)[:5]
+
+        return {
+            "breach_count": breach_count,
+            "breach_total_uah": breach_total_uah,
+            "breach_by_envelope": breach_by_envelope,
+            "top_breaches": top_breaches,
+            "total_spent_uah": total_spent_uah,
+            "burn_rate_daily": burn_rate_daily,
+            "days_remaining": days_remaining,
+            "days_to_zero": days_to_zero,
+            "safe_daily_limit": safe_daily_limit,
+            "spendable_balance": spendable_balance,
+            "health_signal": health_signal,
+        }
+
     def _log_transaction(self, t_type, cat, amt_str, env, details="OK"):
         """Logs transaction with the new 7-column standard."""
         import uuid
