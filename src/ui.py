@@ -76,7 +76,7 @@ class FinanceUI:
         """Displays monthly spending report with category breakdown."""
         print("\n📊 MONTHLY CATEGORY SUMMARY")
         
-        for env_key in ["mandatory", "non_mandatory"]:
+        for env_key in ["mandatory", "non_mandatory", "investments", "dreams"]:
             data = stats[env_key]
             if not data["cats"]: continue
             
