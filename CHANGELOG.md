@@ -1,3 +1,19 @@
+## [1.4.0] — 2026-04-07
+
+### Added
+- `fq audit` — new command: monthly budget breach summary, burn rate, and days-to-zero forecast (#6, #7)
+  - Lists OVERRUN transactions sorted by breach amount
+  - Calculates burn rate (UAH/day) and days until funds reach zero
+  - Provides safe daily limit recommendation
+  - Health signal: [OK] HEALTHY / [!] WARNING / !! CRITICAL
+
+### Changed
+- `fq cs` — virtual breach splitting: shows a "Budget Breach" row per envelope that absorbed overspend (#5)
+  - Stats expanded to all 4 envelopes (investments/dreams sections appear only when data exists)
+  - FX expense rows now parsed correctly in monthly stats
+
+---
+
 ## [1.3.1] - 2026-04-06
 
 ### 🚀 Added
