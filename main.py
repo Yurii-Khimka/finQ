@@ -94,6 +94,8 @@ def main():
             ui.show_error(error)
         else:
             ui.show_info(f"Base currency set to: {config['base_currency']}")
+    elif cmd == "audit":
+        ui.display_audit(manager.get_audit_data())
     elif cmd == "hard-reset":
         if input("⚠️ Wipe data? (y/n): ").lower() == 'y':
             manager._save_json(manager.balances_path, {"mandatory":0,"non_mandatory":0,"investments":0,"dreams":0})
