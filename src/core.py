@@ -405,6 +405,128 @@ class FinanceManager:
             "non_mandatory_spent": non_mandatory_spent,
         }
 
+    def get_anomaly_data(self) -> list:
+        """
+        Detects spending anomalies per category by comparing the last 7 days
+        against the average 7-day window over the past 90 days.
+        Returns a list of anomaly dicts sorted by ratio desc (top 5 max).
+        """
+        if not os.path.exists(self.history_path):
+            return []
+
+        now = datetime.now()
+        cutoff_7d = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        # 7-day window: today back to 7 days ago
+        from datetime import timedelta
+        start_7d = cutoff_7d - timedelta(days=7)
+        start_90d = cutoff_7d - timedelta(days=90)
+
+        last_7d: dict = {}   # category -> UAH spent in last 7 days
+        last_90d: dict = {}  # category -> UAH spent in last 90 days
+
+        with open(self.history_path, 'r', encoding='utf-8') as f:
+            for row in csv.reader(f):
+                if not row or len(row) < 6:
+                    continue
+                t_id, date, t_type, cat, amt_str = row[0], row[1], row[2], row[3], row[4]
+                if t_type != "EXPENSE":
+                    continue
+
+                try:
+                    row_dt = datetime.strptime(date, "%Y-%m-%d %H:%M")
+                except ValueError:
+                    continue
+
+                # Parse UAH amount — handle FX rows: "1500.00 USD (41250.00 UAH)"
+                try:
+                    if "(" in amt_str:
+                        amount = float(amt_str.split("(")[1].split()[0])
+                    else:
+                        amount = float(amt_str.split()[0])
+                except (ValueError, IndexError):
+                    continue
+
+                if row_dt >= start_90d:
+                    last_90d[cat] = last_90d.get(cat, 0.0) + amount
+
+                if row_dt >= start_7d:
+                    last_7d[cat] = last_7d.get(cat, 0.0) + amount
+
+        if not last_90d:
+            return []
+
+        # Average 7-day spend over 90-day window (90 / 7 ≈ 12.857 windows)
+        windows = 90 / 7
+        anomalies = []
+        for cat, last7d_spend in last_7d.items():
+            if last7d_spend <= 50.0:
+                continue  # noise filter
+            avg_7d = last_90d.get(cat, 0.0) / windows
+            if avg_7d == 0.0:
+                continue  # no baseline — cannot compute ratio
+            ratio = last7d_spend / avg_7d
+            if ratio > 1.5:
+                anomalies.append({
+                    "category": cat,
+                    "last_7d": round(last7d_spend, 2),
+                    "avg_7d": round(avg_7d, 2),
+                    "ratio": round(ratio, 2),
+                })
+
+        anomalies.sort(key=lambda x: x["ratio"], reverse=True)
+        return anomalies[:5]
+
+    def get_advisor_text(self, audit_data: dict, anomalies: list) -> str:
+        """
+        Generates a short plain-text advisory (2-4 sentences) based on the
+        health signal, detected anomalies, and breach data.
+        """
+        health_signal = audit_data.get("health_signal", "healthy")
+        days_to_zero = audit_data.get("days_to_zero", float("inf"))
+        breach_count = audit_data.get("breach_count", 0)
+        breach_total = audit_data.get("breach_total_uah", 0.0)
+        safe_daily_limit = audit_data.get("safe_daily_limit", 0.0)
+
+        sentences = []
+
+        # 1. Health signal opener
+        if health_signal == "healthy":
+            sentences.append("Your finances are on track this month.")
+        elif health_signal == "warning":
+            sentences.append("Your spending pace is elevated — monitor closely.")
+        else:
+            if days_to_zero == float("inf"):
+                sentences.append("ALERT: At current burn rate, your spendable balance is critically low.")
+            else:
+                sentences.append(
+                    f"ALERT: At current burn rate, your spendable balance runs out in "
+                    f"{days_to_zero:.0f} days."
+                )
+
+        # 2. Anomaly notice (top category only)
+        if anomalies:
+            top = anomalies[0]
+            sentences.append(
+                f"Unusual spike detected in {top['category']} "
+                f"({top['ratio']:.1f}x your 7-day average) — review this category."
+            )
+
+        # 3. Breach notice
+        if breach_count > 0:
+            sentences.append(
+                f"You have {breach_count} waterfall breach(es) totalling "
+                f"{breach_total:,.0f} UAH — tighten discretionary spend."
+            )
+
+        # 4. Safe daily limit reminder (only when not healthy)
+        if health_signal != "healthy" and safe_daily_limit > 0:
+            sentences.append(
+                f"Keep daily spend under {safe_daily_limit:,.0f} UAH to protect "
+                f"your investment and dreams goals."
+            )
+
+        return " ".join(sentences)
+
     def calculate_impact(self, amount: float, category: str = None) -> dict:
         """
         Read-only pre-spend simulation. Returns before/after daily budget metrics
