@@ -214,8 +214,9 @@ class FinanceUI:
         print("=" * 115 + "\n")
 
     @staticmethod
-    def display_audit(data: dict) -> None:
-        """Renders the monthly budget audit report with breach summary and burn rate forecast."""
+    def display_audit(data: dict, anomalies=None, advisor_text=None) -> None:
+        """Renders the monthly budget audit report with breach summary, burn rate forecast,
+        anomaly detection, and smart advisor sections."""
         W = 65
         thick = "=" * W
         thin = "-" * W
@@ -299,6 +300,30 @@ class FinanceUI:
                 from_envs = ", ".join(k for k in b.get("from", {}).keys())
                 borrowed_str = f"{breach_amt:,.2f} {from_envs}"
                 print(f"  {date_short:<12} {cat:<16}  {amt:<10,.2f}  {borrowed_str}")
+
+        # TOP ANOMALIES
+        if anomalies:
+            print()
+            print("  TOP ANOMALIES")
+            print("  " + thin)
+            print(f"  {'CATEGORY':<16}  {'LAST 7D (UAH)':>14}  {'AVG 7D (UAH)':>13}  {'RATIO':>6}")
+            print(f"  {'-'*16}  {'-'*14}  {'-'*13}  {'-'*6}")
+            for a in anomalies:
+                print(
+                    f"  {a['category']:<16}  {a['last_7d']:>14,.2f}  "
+                    f"{a['avg_7d']:>13,.2f}  {a['ratio']:.1f}x"
+                )
+
+        # ADVISOR
+        print()
+        print("  ADVISOR")
+        print("  " + thin)
+        advisor = advisor_text if advisor_text else "Your finances are on track."
+        # Word-wrap at 60 chars
+        import textwrap
+        wrapped = textwrap.wrap(advisor, width=60)
+        for line in wrapped:
+            print(f"  {line}")
 
         print(thick + "\n")
 
