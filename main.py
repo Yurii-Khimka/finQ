@@ -96,6 +96,7 @@ def main():
             ui.show_info(f"Base currency set to: {config['base_currency']}")
     elif cmd == "audit":
         ui.display_audit(manager.get_audit_data())
+        ui.show_sustainability_forecast(manager.get_sustainability_forecast())
     elif cmd == "impact":
         if len(sys.argv) < 3:
             ui.show_error("Usage: fq impact <amount> [category]")

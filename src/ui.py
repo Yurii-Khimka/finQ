@@ -303,6 +303,64 @@ class FinanceUI:
         print(thick + "\n")
 
     @staticmethod
+    def show_sustainability_forecast(data: dict) -> None:
+        """Renders per-pool burn rates, days-to-zero, and safe daily limits."""
+        W = 65
+        thick = "=" * W
+        thin = "-" * W
+
+        def fmt_days(val):
+            if val == float("inf"):
+                return "inf (no spending yet)"
+            return f"{val:.1f}"
+
+        mandatory_burn = data.get("mandatory_burn", 0.0)
+        non_mandatory_burn = data.get("non_mandatory_burn", 0.0)
+        combined_burn = data.get("combined_burn", 0.0)
+        days_to_zero_mandatory = data.get("days_to_zero_mandatory", float("inf"))
+        days_to_zero_non_mandatory = data.get("days_to_zero_non_mandatory", float("inf"))
+        days_to_zero_combined = data.get("days_to_zero_combined", float("inf"))
+        safe_daily_mandatory = data.get("safe_daily_mandatory", 0.0)
+        safe_daily_non_mandatory = data.get("safe_daily_non_mandatory", 0.0)
+        safe_daily_combined = data.get("safe_daily_combined", 0.0)
+        days_remaining = data.get("days_remaining", 0)
+
+        col_pool = 20
+        col_burn = 18
+        col_days = 14
+        col_safe = 18
+
+        print("\n" + thick)
+        print("  SUSTAINABILITY FORECAST")
+        print(thick)
+        print(
+            f"  {'Pool':<{col_pool}}"
+            f"{'Avg Daily Burn':>{col_burn}}"
+            f"{'Days to Zero':>{col_days}}"
+            f"{'Safe Daily Limit':>{col_safe}}"
+        )
+        print("  " + thin)
+
+        rows = [
+            ("Mandatory Pool", mandatory_burn, days_to_zero_mandatory, safe_daily_mandatory),
+            ("Non-Mandatory Pool", non_mandatory_burn, days_to_zero_non_mandatory, safe_daily_non_mandatory),
+            ("Combined", combined_burn, days_to_zero_combined, safe_daily_combined),
+        ]
+        for pool_label, burn, dtoz, safe in rows:
+            dtoz_str = fmt_days(dtoz)
+            print(
+                f"  {pool_label:<{col_pool}}"
+                f"{burn:>{col_burn - 4},.2f} UAH"
+                f"{dtoz_str:>{col_days}}"
+                f"{safe:>{col_safe - 4},.2f} UAH"
+            )
+
+        print("  " + thin)
+        print(f"  Days remaining (month) :        {days_remaining} days")
+        print(f"  Safe to spend today    : {safe_daily_combined:>12,.2f} UAH/day (combined)")
+        print(thick + "\n")
+
+    @staticmethod
     def show_impact(data: dict) -> None:
         """Renders the pre-spend financial impact analysis with before/after metrics and risk score."""
         W = 65

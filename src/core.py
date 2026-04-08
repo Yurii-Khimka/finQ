@@ -306,6 +306,105 @@ class FinanceManager:
             "health_signal": health_signal,
         }
 
+    def get_sustainability_forecast(self) -> dict:
+        """Returns per-pool burn rates, days-to-zero, and safe daily limits for mandatory and non_mandatory."""
+        now = datetime.now()
+        current_month = now.strftime("%Y-%m")
+
+        balances = self._load_json(self.balances_path)
+        history = self.get_history()
+
+        mandatory_spent = 0.0
+        non_mandatory_spent = 0.0
+
+        for row in history:
+            if not row or len(row) < 6:
+                continue
+            t_id, date, t_type, cat, amt_str, env = row[:6]
+            details = row[6] if len(row) > 6 else "OK"
+
+            if t_type != "EXPENSE" or not date.startswith(current_month):
+                continue
+
+            # Parse UAH amount — handle FX rows like "1500.00 USD (41250.00 UAH)"
+            try:
+                if "(" in amt_str:
+                    amount = float(amt_str.split("(")[1].split()[0])
+                else:
+                    amount = float(amt_str.split()[0])
+            except (ValueError, IndexError):
+                continue
+
+            if details == "OK":
+                # Full amount goes to the row's home envelope
+                if env == "mandatory":
+                    mandatory_spent += amount
+                elif env == "non_mandatory":
+                    non_mandatory_spent += amount
+            else:
+                try:
+                    breach_data = json.loads(details)
+                except json.JSONDecodeError:
+                    # Treat malformed DETAILS as OK — attribute to home envelope
+                    if env == "mandatory":
+                        mandatory_spent += amount
+                    elif env == "non_mandatory":
+                        non_mandatory_spent += amount
+                    continue
+
+                # Amount paid from home envelope = total - sum of breach amounts
+                breach_total = sum(v for v in breach_data.values() if isinstance(v, (int, float)))
+                home_portion = max(amount - breach_total, 0.0)
+
+                if env == "mandatory":
+                    mandatory_spent += home_portion
+                elif env == "non_mandatory":
+                    non_mandatory_spent += home_portion
+
+                # Breach portions: attribute each to its actual source envelope
+                for env_key, breach_amt in breach_data.items():
+                    if not isinstance(breach_amt, (int, float)):
+                        continue
+                    if env_key == "mandatory":
+                        mandatory_spent += breach_amt
+                    elif env_key == "non_mandatory":
+                        non_mandatory_spent += breach_amt
+
+        days_elapsed = max(now.day, 1)
+        days_in_month = calendar.monthrange(now.year, now.month)[1]
+        days_remaining = max(days_in_month - now.day, 0)  # days until end of current month
+
+        mandatory_burn = mandatory_spent / days_elapsed
+        non_mandatory_burn = non_mandatory_spent / days_elapsed
+        combined_burn = mandatory_burn + non_mandatory_burn
+
+        mandatory_balance = balances.get("mandatory", 0.0)
+        non_mandatory_balance = balances.get("non_mandatory", 0.0)
+        combined_balance = mandatory_balance + non_mandatory_balance
+
+        days_to_zero_mandatory = mandatory_balance / mandatory_burn if mandatory_burn != 0 else float("inf")
+        days_to_zero_non_mandatory = non_mandatory_balance / non_mandatory_burn if non_mandatory_burn != 0 else float("inf")
+        days_to_zero_combined = combined_balance / combined_burn if combined_burn != 0 else float("inf")
+
+        safe_daily_mandatory = mandatory_balance / days_remaining if days_remaining > 0 else 0.0
+        safe_daily_non_mandatory = non_mandatory_balance / days_remaining if days_remaining > 0 else 0.0
+        safe_daily_combined = combined_balance / days_remaining if days_remaining > 0 else 0.0
+
+        return {
+            "mandatory_burn": mandatory_burn,
+            "non_mandatory_burn": non_mandatory_burn,
+            "combined_burn": combined_burn,
+            "days_to_zero_mandatory": days_to_zero_mandatory,
+            "days_to_zero_non_mandatory": days_to_zero_non_mandatory,
+            "days_to_zero_combined": days_to_zero_combined,
+            "safe_daily_mandatory": safe_daily_mandatory,
+            "safe_daily_non_mandatory": safe_daily_non_mandatory,
+            "safe_daily_combined": safe_daily_combined,
+            "days_remaining": days_remaining,
+            "mandatory_spent": mandatory_spent,
+            "non_mandatory_spent": non_mandatory_spent,
+        }
+
     def calculate_impact(self, amount: float, category: str = None) -> dict:
         """
         Read-only pre-spend simulation. Returns before/after daily budget metrics
