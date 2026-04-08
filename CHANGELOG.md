@@ -1,3 +1,19 @@
+## [1.5.0] — 2026-04-08
+
+### Added
+- `fq impact <amount> [category]` — pre-spend simulation command (#17)
+  - Shows spendable balance and daily limit before/after the planned expense
+  - Risk score: [GREEN] ≥ 80% daily limit retained, [YELLOW] 50–79%, [RED] < 50% or waterfall triggered
+  - Waterfall warning when the purchase would borrow from Investments or Dreams
+  - Salary cycle detection: days-remaining gates on income arriving in the current month
+- `fq audit` — Sustainability Forecast section appended (#8)
+  - Per-pool (Mandatory / Non-Mandatory / Combined) average daily burn rate
+  - Days-to-zero per pool based on current burn rate
+  - Safe daily limit per pool based on days remaining in the month
+  - Summary line: "Safe to spend today: X UAH/day (combined)"
+
+---
+
 ## [1.4.0] — 2026-04-07
 
 ### Added
