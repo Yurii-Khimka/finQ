@@ -303,6 +303,54 @@ class FinanceUI:
         print(thick + "\n")
 
     @staticmethod
+    def show_impact(data: dict) -> None:
+        """Renders the pre-spend financial impact analysis with before/after metrics and risk score."""
+        W = 65
+        thick = "=" * W
+        thin = "-" * W
+
+        amount = data["amount"]
+        category = data["category"]
+        category_valid = data["category_valid"]
+        spendable_before = data["spendable_before"]
+        spendable_after = data["spendable_after"]
+        daily_limit_before = data["daily_limit_before"]
+        daily_limit_after = data["daily_limit_after"]
+        days_remaining = data["days_remaining"]
+        waterfall_triggered = data["waterfall_triggered"]
+        risk_score = data["risk_score"]
+
+        # Format category string
+        if category is None:
+            category_str = "(not specified)"
+        elif category_valid:
+            category_str = category
+        else:
+            category_str = f"{category} (unrecognized)"
+
+        print("\n" + thick)
+        print("  FINANCIAL IMPACT ANALYSIS")
+        print(thick)
+        print(f"  Planned expense         : {amount:>12,.2f} UAH")
+        print(f"  Category                : {category_str:>20}")
+        print(thin)
+        print(f"  {'Metric':<20}  {'Before':>15}  {'After':>15}")
+        print(thin)
+        print(f"  {'Spendable Balance':<20}  {spendable_before:>12,.2f} UAH  {spendable_after:>12,.2f} UAH")
+        print(f"  {'Daily Limit':<20}  {daily_limit_before:>12,.2f} UAH  {daily_limit_after:>12,.2f} UAH")
+
+        if days_remaining == 0:
+            print(f"  {'Days Remaining':<20}  {days_remaining:>10} days  (no salary cycle found)")
+        else:
+            print(f"  {'Days Remaining':<20}  {days_remaining:>10} days")
+
+        print(thin)
+        print(f"  Risk Score          : [{risk_score}]")
+        if waterfall_triggered:
+            print("  [!] WARNING: Discipline Waterfall triggered — other envelopes would be drawn.")
+        print(thick + "\n")
+
+    @staticmethod
     def show_error(msg): print(f"❌ ERROR: {msg}")
 
     @staticmethod
@@ -329,6 +377,7 @@ class FinanceUI:
         print(f"{'fq sync <total>':<22} - 🔄 Proportional balance adjustment")
         print(f"{'fq cc <UAH|USD|EUR>':<22} - 💱 Set base display currency")
         print(f"{'fq audit':<22} - Monthly breach summary and burn rate forecast")
+        print(f"{'fq impact <amt> [cat]':<22} - Simulate expense impact on daily budget & risk score")
 
         print("\n💡 EXAMPLES & USE CASES:")
         print("-" * 75)

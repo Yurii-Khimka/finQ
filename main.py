@@ -96,6 +96,18 @@ def main():
             ui.show_info(f"Base currency set to: {config['base_currency']}")
     elif cmd == "audit":
         ui.display_audit(manager.get_audit_data())
+    elif cmd == "impact":
+        if len(sys.argv) < 3:
+            ui.show_error("Usage: fq impact <amount> [category]")
+        else:
+            try:
+                amount = float(sys.argv[2])
+            except ValueError:
+                ui.show_error("Usage: fq impact <amount> [category] — amount must be a number.")
+            else:
+                category = sys.argv[3] if len(sys.argv) >= 4 else None
+                result = manager.calculate_impact(amount, category)
+                ui.show_impact(result)
     elif cmd == "hard-reset":
         if input("⚠️ Wipe data? (y/n): ").lower() == 'y':
             manager._save_json(manager.balances_path, {"mandatory":0,"non_mandatory":0,"investments":0,"dreams":0})

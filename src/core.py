@@ -4,6 +4,7 @@ import os
 import urllib.request
 import ssl
 import uuid
+import calendar
 from datetime import datetime
 
 class FinanceManager:
@@ -303,6 +304,123 @@ class FinanceManager:
             "safe_daily_limit": safe_daily_limit,
             "spendable_balance": spendable_balance,
             "health_signal": health_signal,
+        }
+
+    def calculate_impact(self, amount: float, category: str = None) -> dict:
+        """
+        Read-only pre-spend simulation. Returns before/after daily budget metrics
+        and a risk score without writing any data files.
+        """
+        balances = self._load_json(self.balances_path)
+        history = self.get_history()
+        now = datetime.now()
+
+        spendable_before = balances.get("mandatory", 0.0) + balances.get("non_mandatory", 0.0)
+
+        # Derive days_remaining from last INCOME row in history
+        last_income_date = None
+        for row in reversed(history):
+            if not row or len(row) < 6:
+                continue
+            t_type_row = row[2]
+            if t_type_row == "INCOME":
+                try:
+                    last_income_date = datetime.strptime(row[1], "%Y-%m-%d %H:%M")
+                except ValueError:
+                    continue
+                break
+
+        # Only treat the current month as an active salary cycle if income arrived this month
+        if (last_income_date is not None
+                and last_income_date.year == now.year
+                and last_income_date.month == now.month):
+            days_in_month = calendar.monthrange(now.year, now.month)[1]
+            days_remaining = max(days_in_month - now.day, 0)
+        else:
+            days_remaining = 0
+
+        daily_limit_before = spendable_before / days_remaining if days_remaining > 0 else 0.0
+
+        # Handle non-positive amounts: no change, no risk
+        if amount <= 0:
+            return {
+                "amount": amount,
+                "category": category,
+                "spendable_before": spendable_before,
+                "spendable_after": spendable_before,
+                "daily_limit_before": daily_limit_before,
+                "daily_limit_after": daily_limit_before,
+                "days_remaining": days_remaining,
+                "waterfall_triggered": False,
+                "risk_score": "GREEN",
+                "category_valid": False,
+            }
+
+        # Determine home_env from categories.json
+        categories = self._load_json(self.categories_path)
+        category_valid = False
+        if category is not None and category in categories:
+            home_env = categories[category]
+            category_valid = True
+        else:
+            home_env = "non_mandatory"
+
+        # Build waterfall hierarchy (home first, rest in base priority order)
+        base_priority = ["mandatory", "non_mandatory", "investments", "dreams"]
+        hierarchy = [home_env] + [e for e in base_priority if e != home_env]
+
+        # Simulate waterfall in memory
+        sim_balances = dict(balances)
+        remaining = amount
+        waterfall_triggered = False
+
+        for env in hierarchy:
+            if remaining <= 0:
+                break
+            current_bal = sim_balances.get(env, 0.0)
+
+            if env == "dreams":
+                take = remaining  # final buffer — can go negative
+            else:
+                take = min(current_bal, remaining)
+                if take <= 0:
+                    continue
+
+            sim_balances[env] = sim_balances.get(env, 0.0) - take
+            remaining -= take
+
+            if env != home_env:
+                waterfall_triggered = True
+
+        spendable_after = sim_balances.get("mandatory", 0.0) + sim_balances.get("non_mandatory", 0.0)
+        daily_limit_after = spendable_after / days_remaining if days_remaining > 0 else 0.0
+
+        # Compute risk score
+        if waterfall_triggered:
+            risk_score = "RED"
+        elif daily_limit_before > 0:
+            ratio = daily_limit_after / daily_limit_before
+            if ratio >= 0.80:
+                risk_score = "GREEN"
+            elif ratio >= 0.50:
+                risk_score = "YELLOW"
+            else:
+                risk_score = "RED"
+        else:
+            # daily_limit_before == 0: spendable_before is 0 or days_remaining is 0 — cannot compute ratio
+            risk_score = "RED"
+
+        return {
+            "amount": amount,
+            "category": category,
+            "spendable_before": spendable_before,
+            "spendable_after": spendable_after,
+            "daily_limit_before": daily_limit_before,
+            "daily_limit_after": daily_limit_after,
+            "days_remaining": days_remaining,
+            "waterfall_triggered": waterfall_triggered,
+            "risk_score": risk_score,
+            "category_valid": category_valid,
         }
 
     def _log_transaction(self, t_type, cat, amt_str, env, details="OK"):
