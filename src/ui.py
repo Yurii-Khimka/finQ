@@ -311,7 +311,7 @@ class FinanceUI:
 
         def fmt_days(val):
             if val == float("inf"):
-                return "--"
+                return "inf (no spending yet)"
             return f"{val:.1f}"
 
         mandatory_burn = data.get("mandatory_burn", 0.0)
@@ -323,6 +323,7 @@ class FinanceUI:
         safe_daily_mandatory = data.get("safe_daily_mandatory", 0.0)
         safe_daily_non_mandatory = data.get("safe_daily_non_mandatory", 0.0)
         safe_daily_combined = data.get("safe_daily_combined", 0.0)
+        days_remaining = data.get("days_remaining", 0)
 
         col_pool = 20
         col_burn = 18
@@ -355,7 +356,8 @@ class FinanceUI:
             )
 
         print("  " + thin)
-        print(f"  Safe to spend today: {safe_daily_combined:,.2f} UAH/day (combined)")
+        print(f"  Days remaining (month) :        {days_remaining} days")
+        print(f"  Safe to spend today    : {safe_daily_combined:>12,.2f} UAH/day (combined)")
         print(thick + "\n")
 
     @staticmethod

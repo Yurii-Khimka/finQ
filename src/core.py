@@ -354,7 +354,7 @@ class FinanceManager:
 
                 # Amount paid from home envelope = total - sum of breach amounts
                 breach_total = sum(v for v in breach_data.values() if isinstance(v, (int, float)))
-                home_portion = amount - breach_total
+                home_portion = max(amount - breach_total, 0.0)
 
                 if env == "mandatory":
                     mandatory_spent += home_portion
@@ -372,7 +372,7 @@ class FinanceManager:
 
         days_elapsed = max(now.day, 1)
         days_in_month = calendar.monthrange(now.year, now.month)[1]
-        days_until_salary = max(days_in_month - now.day, 0)
+        days_remaining = max(days_in_month - now.day, 0)  # days until end of current month
 
         mandatory_burn = mandatory_spent / days_elapsed
         non_mandatory_burn = non_mandatory_spent / days_elapsed
@@ -386,9 +386,9 @@ class FinanceManager:
         days_to_zero_non_mandatory = non_mandatory_balance / non_mandatory_burn if non_mandatory_burn != 0 else float("inf")
         days_to_zero_combined = combined_balance / combined_burn if combined_burn != 0 else float("inf")
 
-        safe_daily_mandatory = mandatory_balance / days_until_salary if days_until_salary > 0 else 0.0
-        safe_daily_non_mandatory = non_mandatory_balance / days_until_salary if days_until_salary > 0 else 0.0
-        safe_daily_combined = combined_balance / days_until_salary if days_until_salary > 0 else 0.0
+        safe_daily_mandatory = mandatory_balance / days_remaining if days_remaining > 0 else 0.0
+        safe_daily_non_mandatory = non_mandatory_balance / days_remaining if days_remaining > 0 else 0.0
+        safe_daily_combined = combined_balance / days_remaining if days_remaining > 0 else 0.0
 
         return {
             "mandatory_burn": mandatory_burn,
@@ -400,7 +400,7 @@ class FinanceManager:
             "safe_daily_mandatory": safe_daily_mandatory,
             "safe_daily_non_mandatory": safe_daily_non_mandatory,
             "safe_daily_combined": safe_daily_combined,
-            "days_until_salary": days_until_salary,
+            "days_remaining": days_remaining,
             "mandatory_spent": mandatory_spent,
             "non_mandatory_spent": non_mandatory_spent,
         }
