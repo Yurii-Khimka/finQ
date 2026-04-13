@@ -32,7 +32,8 @@ def main():
         sorted_cats = manager.get_sorted_categories()
         ui.display_categories(sorted_cats)
     elif cmd == "cs":
-        ui.display_stats(manager.get_monthly_stats())
+        filter_val = sys.argv[2].lower() if len(sys.argv) >= 3 else None
+        ui.display_stats(manager.get_monthly_stats(filter_val), filter_val)
     elif cmd == "rm" and len(sys.argv) == 3:
         t_id = sys.argv[2]
         new_balances, error = manager.remove_transaction(t_id)

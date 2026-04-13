@@ -24,6 +24,12 @@ Every income entry is automatically split into four strategic "envelopes":
 - `fq db <days>` — Daily budget calculation for the remaining period.
 - `fq rm <id>` — 🗑️ Remove transaction by ID and restore balance.
 
+| Command           | Description                                          |
+|-------------------|------------------------------------------------------|
+| `fq cs`           | Monthly category stats (current month)               |
+| `fq cs all`       | Category stats for all time                          |
+| `fq cs [month]`   | Category stats for specific month (e.g. 04)          |
+
 ---
 
 ## 🗺 Roadmap & Future Features

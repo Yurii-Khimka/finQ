@@ -141,16 +141,33 @@ class FinanceManager:
             self._save_json(self.balances_path, balances)
         return total
 
-    def get_monthly_stats(self):
-        """Aggregates spending per category for the current month. Breach-aware virtual splitting across all 4 envelopes."""
+    def get_monthly_stats(self, filter_val: str = None) -> dict:
+        """Aggregates spending per category with optional date filtering.
+
+        filter_val=None or "current" → current month
+        filter_val="all"             → all-time
+        filter_val="04" or "4"       → specific month (zfill to 2 digits)
+        """
         stats = {
             "mandatory": {"total": 0.0, "cats": {}},
             "non_mandatory": {"total": 0.0, "cats": {}},
             "investments": {"total": 0.0, "cats": {}},
             "dreams": {"total": 0.0, "cats": {}}
         }
-        current_month = datetime.now().strftime("%Y-%m")
         if not os.path.exists(self.history_path): return stats
+
+        # Determine row-matching predicate based on filter_val
+        if filter_val is None or filter_val == "current":
+            current_month = datetime.now().strftime("%Y-%m")
+            def row_matches(date): return date.startswith(current_month)
+        elif filter_val == "all":
+            def row_matches(date): return True
+        else:
+            # Numeric month filter — normalize and guard against "0"/"00"
+            month_str = f"-{filter_val.zfill(2)}-"
+            if month_str == "-00-":
+                return stats
+            def row_matches(date): return month_str in date
 
         with open(self.history_path, 'r', encoding='utf-8') as f:
             reader = csv.reader(f)
@@ -158,7 +175,7 @@ class FinanceManager:
                 if not row or len(row) < 6: continue
                 t_id, date, t_type, cat, amt_str, env = row[:6]
 
-                if t_type == "EXPENSE" and date.startswith(current_month):
+                if t_type == "EXPENSE" and row_matches(date):
                     # Parse UAH amount — handle FX rows: "1500.00 USD (41250.00 UAH)"
                     try:
                         if "(" in amt_str:

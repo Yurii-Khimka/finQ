@@ -73,9 +73,23 @@ class FinanceUI:
             print("-" * 82 + "\n")
 
     @staticmethod
-    def display_stats(stats):
-        """Displays monthly spending report with category breakdown."""
-        print("\n📊 MONTHLY CATEGORY SUMMARY")
+    def display_stats(stats, filter_val: str = None):
+        """Displays spending report with category breakdown.
+
+        filter_val=None       → current month
+        filter_val="all"      → all time
+        filter_val="04" etc.  → specific month
+        """
+        if filter_val is None:
+            period_label = f"current month ({datetime.now().strftime('%m/%Y')})"
+        elif filter_val == "all":
+            period_label = "all time"
+        else:
+            period_label = f"month {filter_val.zfill(2)}"
+
+        print("\n" + "=" * 55)
+        print(f"STATS FOR: {period_label}")
+        print("=" * 55)
         
         for env_key in ["mandatory", "non_mandatory", "investments", "dreams"]:
             data = stats[env_key]
@@ -451,7 +465,9 @@ class FinanceUI:
         print("=" * 75)
         print(f"{'fq':<22} - 📊 View Dashboard & NBU Rates")
         print(f"{'fq ls [month/all]':<22} - 📜 History with breach markers & month filters")
-        print(f"{'fq cs':<22} - 📈 Monthly Category Stats (Expenses)")
+        print(f"{'fq cs':<22} - 📈 Monthly category stats (current month)")
+        print(f"{'fq cs all':<22} - 📈 Category stats for all time")
+        print(f"{'fq cs [month]':<22} - 📈 Category stats for a specific month (e.g. fq cs 04)")
         print(f"{'fq ac':<22} - 📂 List Categories")
         print(f"{'fq db <days>':<22} - 📅 Calculate Daily Budget")
         print(f"{'fq b <cat> <amt> [cur]':<22} - 💸 Record Expense (e.g., fq b taxi 80 | fq b taxi 2 usd)")
