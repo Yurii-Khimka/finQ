@@ -1,0 +1,4 @@
+t_id,date,t_type,category,amount_uah,envelope,details
+cb774795,2026-10-11 19:19,INCOME,Total,2752.00 USD (123535.63 UAH),Distributed,OK
+4e15872a,2026-10-11 19:19,SAVINGS,Distributed,167508.55 UAH,savings,OK
+50af9864,2026-10-11 19:19,SAVINGS,Distributed,600.00 USD (26933.64 UAH),savings,OK

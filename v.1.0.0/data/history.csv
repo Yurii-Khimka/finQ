@@ -1,0 +1,487 @@
+d62fc8cc,2026-03-29 23:31,INCOME,Total,22333.88 UAH,Distributed,OK
+fd99996d,2026-03-30 12:08,EXPENSE,family,200.00 UAH,mandatory,OK
+674a48d3,2026-03-30 12:21,EXPENSE,food,169.00 UAH,non_mandatory,OK
+4817590a,2026-03-30 12:23,SYNC,Adjustment,-0.44 UAH,Balance Sync,OK
+5a2a5f7e,2026-03-30 21:33,EXPENSE,subscriptions,254.09 UAH,non_mandatory,OK
+614edece,2026-03-30 21:48,EXPENSE,taxi,133.00 UAH,non_mandatory,OK
+da4b7a41,2026-03-30 22:25,EXPENSE,entertainment,700.00 UAH,non_mandatory,OK
+6fc921aa,2026-03-30 22:25,EXPENSE,taxi,185.00 UAH,non_mandatory,OK
+2a88de31,2026-03-30 22:45,EXPENSE,groceries,166.37 UAH,mandatory,OK
+a0bf9f8a,2026-03-30 22:45,SYNC,Adjustment,-0.43 UAH,Balance Sync,OK
+20f65a19,2026-03-31 10:38,EXPENSE,food,530.00 UAH,non_mandatory,OK
+0c7ba700,2026-03-31 10:39,SYNC,Adjustment,12.85 UAH,Balance Sync,OK
+a783b327,2026-03-31 17:01,SYNC,Adjustment,34.14 UAH,Balance Sync,OK
+22844148,2026-03-31 23:21,EXPENSE,entertainment,770.00 UAH,non_mandatory,OK
+b778f6ee,2026-03-31 23:21,EXPENSE,taxi,205.00 UAH,non_mandatory,OK
+b3e7cdbb,2026-03-31 23:22,EXPENSE,groceries,214.54 UAH,mandatory,OK
+023123ec,2026-03-31 23:23,EXPENSE,family,2000.00 UAH,mandatory,OK
+d99c6997,2026-04-01 09:45,EXPENSE,hobbies,240.00 UAH,mandatory,OK
+3c232e92,2026-04-01 15:20,EXPENSE,groceries,141.45 UAH,mandatory,OK
+a88fa6e5,2026-04-01 15:20,EXPENSE,food,169.00 UAH,non_mandatory,OK
+c151f60d,2026-04-01 19:27,EXPENSE,food,373.00 UAH,non_mandatory,OK
+95f9c647,2026-04-01 22:09,EXPENSE,taxi,155.00 UAH,non_mandatory,OK
+bc255c66,2026-04-01 22:37,EXPENSE,entertainment,565.00 UAH,non_mandatory,OK
+ddc91ab7,2026-04-01 22:37,EXPENSE,taxi,180.00 UAH,non_mandatory,OK
+eb03b8e9,2026-04-02 12:30,EXPENSE,groceries,522.09 UAH,mandatory,OK
+809be3f1,2026-04-02 12:30,EXPENSE,groceries,57.31 UAH,mandatory,OK
+4d7fab9a,2026-04-02 13:21,EXPENSE,groceries,111.35 UAH,mandatory,OK
+52f86c86,2026-04-02 13:21,EXPENSE,groceries,339.04 UAH,mandatory,OK
+4988ccd2,2026-04-02 13:22,EXPENSE,family,100.00 UAH,mandatory,OK
+d1934819,2026-04-02 21:28,EXPENSE,taxi,141.00 UAH,non_mandatory,OK
+c767e948,2026-04-02 23:27,EXPENSE,entertainment,785.00 UAH,non_mandatory,OK
+ede45e01,2026-04-02 23:27,EXPENSE,taxi,200.00 UAH,non_mandatory,OK
+44c520e6,2026-04-03 12:12,INCOME,Total,2751.00 USD (120533.41 UAH),Distributed,OK
+adefe7d8,2026-04-03 12:12,SYNC,Adjustment,-540.30 UAH,Balance Sync,OK
+ad0a8e52,2026-04-03 12:48,EXPENSE,food,171.00 UAH,non_mandatory,OK
+f88802dc,2026-04-03 13:23,EXPENSE,housing,10000.00 UAH,mandatory,OK
+07af0e24,2026-04-03 17:21,EXPENSE,debt_payment,11000.00 UAH,mandatory,OK
+92b36f77,2026-04-03 17:22,SYNC,Adjustment,-517.00 UAH,Balance Sync,OK
+37072f17,2026-04-03 17:52,EXPENSE,food,428.00 UAH,non_mandatory,OK
+30154335,2026-04-03 23:19,EXPENSE,taxi,165.00 UAH,non_mandatory,OK
+67f791e0,2026-04-03 23:19,EXPENSE,taxi,180.00 UAH,non_mandatory,OK
+1c651516,2026-04-03 23:19,EXPENSE,entertainment,580.00 UAH,non_mandatory,OK
+60362ecf,2026-04-03 23:20,EXPENSE,food,162.87 UAH,non_mandatory,OK
+080ebde9,2026-04-04 09:27,EXPENSE,healthcare,691.38 UAH,mandatory,OK
+c5d22e2a,2026-04-04 10:21,EXPENSE,gifts,2299.00 UAH,non_mandatory,OK
+38806301,2026-04-04 11:47,EXPENSE,subscriptions,349.00 UAH,non_mandatory,OK
+51d8d53e,2026-04-04 11:48,EXPENSE,family,200.00 UAH,mandatory,OK
+3155c942,2026-04-04 11:50,EXPENSE,groceries,1027.23 UAH,mandatory,OK
+a86b1296,2026-04-04 11:50,EXPENSE,groceries,337.05 UAH,mandatory,OK
+06fe3ec9,2026-04-04 11:50,EXPENSE,family,1300.00 UAH,mandatory,OK
+21c85a5e,2026-04-04 11:53,EXPENSE,groceries,343.11 UAH,mandatory,OK
+462ac2cf,2026-04-04 11:54,SYNC,Adjustment,338.59 UAH,Balance Sync,OK
+0cab6bd4,2026-04-04 11:56,EXPENSE,food,169.00 UAH,non_mandatory,OK
+85ec84a3,2026-04-04 16:10,EXPENSE,food,508.00 UAH,non_mandatory,OK
+fa82be65,2026-04-04 17:15,EXPENSE,family,960.00 UAH,mandatory,OK
+3e282516,2026-04-04 21:57,EXPENSE,taxi,135.00 UAH,non_mandatory,OK
+5e6ee33e,2026-04-04 21:57,EXPENSE,entertainment,704.00 UAH,non_mandatory,OK
+c23bf257,2026-04-04 22:03,EXPENSE,taxi,160.00 UAH,non_mandatory,OK
+87c7205f,2026-04-04 22:24,EXPENSE,groceries,56.12 UAH,mandatory,OK
+4306f2ff,2026-04-05 11:45,EXPENSE,taxi,175.00 UAH,non_mandatory,OK
+81685397,2026-04-05 17:16,EXPENSE,entertainment,780.00 UAH,non_mandatory,OK
+3d543ded,2026-04-05 17:16,EXPENSE,taxi,230.00 UAH,non_mandatory,OK
+ceb872ee,2026-04-05 17:16,EXPENSE,shopping,129.00 UAH,non_mandatory,OK
+bec83c47,2026-04-05 17:17,EXPENSE,entertainment,170.00 UAH,non_mandatory,OK
+ccc2fa92,2026-04-05 17:17,EXPENSE,food,489.00 UAH,non_mandatory,OK
+0efe9110,2026-04-05 17:17,EXPENSE,taxi,270.00 UAH,non_mandatory,OK
+ddde9c07,2026-04-05 17:17,EXPENSE,groceries,546.75 UAH,mandatory,OK
+25dd96d5,2026-04-05 21:33,EXPENSE,investments,2927.09 UAH,investments,OK
+3ad651c2,2026-04-06 12:28,EXPENSE,subscriptions,1054.81 UAH,non_mandatory,OK
+f96ab93c,2026-04-06 12:28,EXPENSE,family,400.00 UAH,mandatory,OK
+71903b40,2026-04-06 16:25,EXPENSE,family,200.00 UAH,mandatory,OK
+0cfbe2ef,2026-04-07 09:37,EXPENSE,taxi,235.00 UAH,non_mandatory,OK
+13386758,2026-04-07 09:37,EXPENSE,entertainment,940.00 UAH,non_mandatory,OK
+bad43fcd,2026-04-07 09:37,EXPENSE,taxi,170.00 UAH,non_mandatory,OK
+40f35721,2026-04-07 10:09,EXPENSE,food,353.13 UAH,non_mandatory,OK
+6375b5be,2026-04-07 10:12,EXPENSE,subscriptions,305.08 UAH,non_mandatory,OK
+c0fa6938,2026-04-07 10:12,SYNC,Adjustment,-495.95 UAH,Balance Sync,OK
+d0fccf7e,2026-04-07 11:22,EXPENSE,food,200.00 UAH,non_mandatory,OK
+31af2b52,2026-04-07 14:42,EXPENSE,food,169.00 UAH,non_mandatory,OK
+089aa352,2026-04-07 14:43,EXPENSE,groceries,796.72 UAH,mandatory,OK
+f219d291,2026-04-07 19:48,EXPENSE,food,726.00 UAH,non_mandatory,OK
+6da01a22,2026-04-07 20:35,EXPENSE,groceries,460.57 UAH,mandatory,OK
+367a5fd3,2026-04-08 12:13,EXPENSE,taxi,160.00 UAH,non_mandatory,OK
+184de216,2026-04-08 12:13,EXPENSE,entertainment,700.00 UAH,non_mandatory,OK
+33ab5c3a,2026-04-08 12:14,EXPENSE,taxi,170.00 UAH,non_mandatory,OK
+078c6463,2026-04-08 12:14,EXPENSE,family,300.00 UAH,mandatory,OK
+d123b325,2026-04-08 12:14,EXPENSE,gifts,200.00 UAH,non_mandatory,OK
+48134b53,2026-04-08 19:38,EXPENSE,taxes,1025.10 UAH,mandatory,OK
+282199e6,2026-04-08 19:40,EXPENSE,taxes,6026.00 UAH,mandatory,OK
+8ce41f38,2026-04-08 19:40,EXPENSE,taxes,1902.00 UAH,mandatory,OK
+1f198894,2026-04-08 19:41,EXPENSE,groceries,512.19 UAH,mandatory,OK
+e44197d0,2026-04-08 22:35,EXPENSE,taxi,145.00 UAH,non_mandatory,OK
+91a3f91b,2026-04-08 22:35,EXPENSE,taxi,137.00 UAH,non_mandatory,OK
+9d78700d,2026-04-08 22:35,EXPENSE,entertainment,946.00 UAH,non_mandatory,OK
+adcdab68,2026-04-08 22:36,SYNC,Adjustment,-371.65 UAH,Balance Sync,OK
+eb819beb,2026-04-09 10:22,EXPENSE,food,191.00 UAH,non_mandatory,OK
+a02e9998,2026-04-09 17:59,EXPENSE,groceries,383.50 UAH,mandatory,OK
+2a2d189e,2026-04-09 17:59,EXPENSE,groceries,746.51 UAH,mandatory,OK
+901b2b21,2026-04-10 09:20,EXPENSE,entertainment,820.00 UAH,non_mandatory,OK
+fef8e503,2026-04-10 12:27,EXPENSE,food,279.00 UAH,non_mandatory,OK
+9e3a5472,2026-04-10 20:11,EXPENSE,family,300.00 UAH,mandatory,OK
+c19e45ac,2026-04-10 20:11,EXPENSE,groceries,131.63 UAH,mandatory,OK
+326962d7,2026-04-10 23:10,EXPENSE,taxi,165.00 UAH,non_mandatory,OK
+16e017c3,2026-04-10 23:10,EXPENSE,taxi,175.00 UAH,non_mandatory,OK
+92c879fd,2026-04-10 23:10,EXPENSE,entertainment,700.00 UAH,non_mandatory,OK
+60d67e95,2026-04-11 13:15,EXPENSE,family,300.00 UAH,mandatory,OK
+b62ec4fc,2026-04-11 13:16,EXPENSE,food,1049.00 UAH,non_mandatory,OK
+6a625218,2026-04-11 13:16,EXPENSE,family,720.00 UAH,mandatory,OK
+c74e647d,2026-04-11 13:16,EXPENSE,family,1260.00 UAH,mandatory,OK
+0abc37bd,2026-04-11 20:15,EXPENSE,family,2000.00 UAH,mandatory,OK
+4307b8a3,2026-04-11 20:15,EXPENSE,taxi,237.00 UAH,non_mandatory,OK
+e3773412,2026-04-11 20:16,EXPENSE,subscriptions,873.10 UAH,non_mandatory,OK
+6eb3cf43,2026-04-11 20:16,EXPENSE,food,1400.00 UAH,non_mandatory,OK
+8a621aab,2026-04-11 20:16,EXPENSE,groceries,508.38 UAH,mandatory,OK
+040ff8c0,2026-04-11 20:16,EXPENSE,taxi,285.00 UAH,non_mandatory,OK
+4c8cf601,2026-04-11 20:17,SYNC,Adjustment,-215.59 UAH,Balance Sync,OK
+54c4287d,2026-04-12 09:15,EXPENSE,taxi,151.00 UAH,non_mandatory,OK
+ce689b8b,2026-04-12 09:15,EXPENSE,groceries,133.32 UAH,mandatory,OK
+81bbc42e,2026-04-12 09:15,EXPENSE,entertainment,946.00 UAH,non_mandatory,OK
+4046b216,2026-04-12 09:15,EXPENSE,taxi,151.00 UAH,non_mandatory,OK
+3d194efd,2026-04-12 09:15,EXPENSE,food,275.00 UAH,non_mandatory,OK
+85570273,2026-04-12 13:08,EXPENSE,taxi,239.00 UAH,non_mandatory,OK
+d99000ed,2026-04-12 13:08,EXPENSE,taxi,185.00 UAH,non_mandatory,OK
+9a4c201c,2026-04-12 13:08,EXPENSE,food,573.00 UAH,non_mandatory,OK
+94e256c4,2026-04-12 13:08,EXPENSE,entertainment,1170.00 UAH,non_mandatory,OK
+24edd322,2026-04-12 17:33,EXPENSE,taxi,48.00 UAH,non_mandatory,OK
+8e214a38,2026-04-12 17:39,EXPENSE,taxi,285.00 UAH,non_mandatory,OK
+c9658d8f,2026-04-12 17:40,EXPENSE,entertainment,265.00 UAH,non_mandatory,OK
+cb4678f6,2026-04-12 17:40,EXPENSE,food,159.00 UAH,non_mandatory,OK
+150a6411,2026-04-12 17:40,EXPENSE,entertainment,125.00 UAH,non_mandatory,OK
+a4d44fd3,2026-04-12 17:40,EXPENSE,taxi,280.00 UAH,non_mandatory,OK
+4e9ec29f,2026-04-12 17:41,EXPENSE,internet,399.00 UAH,mandatory,OK
+59dc78ae,2026-04-13 08:38,INCOME,Total,805.00 UAH,Distributed,OK
+f91fe128,2026-04-13 08:38,EXPENSE,taxi,153.00 UAH,non_mandatory,OK
+ed8f0be6,2026-04-13 08:38,EXPENSE,entertainment,940.00 UAH,non_mandatory,OK
+fe2f7a54,2026-04-13 08:39,EXPENSE,taxi,175.00 UAH,non_mandatory,OK
+528ff38c,2026-04-13 08:39,EXPENSE,groceries,185.52 UAH,mandatory,OK
+c79af64f,2026-04-13 11:43,EXPENSE,housing,240.00 UAH,mandatory,OK
+b8c70f38,2026-04-13 11:43,EXPENSE,family,250.00 UAH,mandatory,OK
+55ea9776,2026-04-13 12:03,EXPENSE,food,230.00 UAH,non_mandatory,OK
+7569ef7c,2026-04-13 20:50,EXPENSE,groceries,87.16 UAH,mandatory,OK
+8221a39c,2026-04-13 22:14,EXPENSE,taxi,139.00 UAH,non_mandatory,OK
+846de7ed,2026-04-13 22:14,EXPENSE,taxi,143.00 UAH,non_mandatory,OK
+e692583d,2026-04-13 22:15,EXPENSE,entertainment,700.00 UAH,non_mandatory,OK
+cc31cc04,2026-04-13 22:15,EXPENSE,groceries,153.53 UAH,mandatory,OK
+c458ca8f,2026-04-14 19:23,EXPENSE,taxi,220.00 UAH,non_mandatory,OK
+4651d032,2026-04-14 19:23,EXPENSE,family,550.00 UAH,mandatory,OK
+46ebf77f,2026-04-14 23:38,EXPENSE,entertainment,145.00 UAH,non_mandatory,OK
+cdb99b97,2026-04-14 23:39,EXPENSE,entertainment,1279.00 UAH,non_mandatory,OK
+45581b65,2026-04-14 23:39,EXPENSE,gifts,400.00 UAH,non_mandatory,OK
+66e5ac07,2026-04-14 23:39,EXPENSE,taxi,193.00 UAH,non_mandatory,OK
+d54f47c7,2026-04-14 23:39,EXPENSE,food,80.00 UAH,non_mandatory,OK
+f551df12,2026-04-15 10:42,EXPENSE,groceries,1289.84 UAH,mandatory,OK
+7984f682,2026-04-15 10:42,EXPENSE,food,264.00 UAH,non_mandatory,OK
+50b3907e,2026-04-15 11:38,EXPENSE,family,200.00 UAH,mandatory,OK
+a9ab84e5,2026-04-15 23:51,EXPENSE,family,300.00 UAH,mandatory,OK
+37453003,2026-04-15 23:51,EXPENSE,taxi,115.00 UAH,non_mandatory,OK
+f453b271,2026-04-15 23:51,EXPENSE,entertainment,700.00 UAH,non_mandatory,OK
+e88274a3,2026-04-15 23:51,EXPENSE,taxi,121.00 UAH,non_mandatory,OK
+a6b98d1a,2026-04-16 10:24,EXPENSE,groceries,548.88 UAH,mandatory,OK
+1d7770eb,2026-04-16 10:25,EXPENSE,family,200.00 UAH,mandatory,OK
+1b17a287,2026-04-16 22:28,EXPENSE,taxi,117.00 UAH,non_mandatory,OK
+95c4c970,2026-04-16 22:29,EXPENSE,subscriptions,658.24 UAH,non_mandatory,OK
+7f7c3c0a,2026-04-16 22:29,EXPENSE,entertainment,640.00 UAH,non_mandatory,OK
+d3723522,2026-04-16 22:29,EXPENSE,taxi,121.00 UAH,non_mandatory,OK
+d38b61eb,2026-04-18 00:04,EXPENSE,groceries,723.78 UAH,mandatory,OK
+af40c401,2026-04-18 00:04,EXPENSE,family,150.00 UAH,mandatory,OK
+cae42fbb,2026-04-18 00:05,EXPENSE,food,818.00 UAH,non_mandatory,OK
+273d3135,2026-04-18 00:05,EXPENSE,taxi,127.00 UAH,non_mandatory,OK
+4ea86ed0,2026-04-18 00:05,EXPENSE,taxi,142.00 UAH,non_mandatory,OK
+df191498,2026-04-18 17:23,EXPENSE,investments,4700.31 UAH,investments,OK
+ced91f14,2026-04-18 23:04,EXPENSE,taxi,273.00 UAH,non_mandatory,OK
+94eccf37,2026-04-18 23:04,EXPENSE,entertainment,480.00 UAH,non_mandatory,OK
+d9ed94ef,2026-04-18 23:05,EXPENSE,family,140.00 UAH,mandatory,OK
+14af32ff,2026-04-18 23:05,EXPENSE,food,384.00 UAH,non_mandatory,OK
+f8693c15,2026-04-18 23:05,EXPENSE,food,108.00 UAH,non_mandatory,OK
+5a6f178c,2026-04-18 23:05,EXPENSE,food,170.00 UAH,non_mandatory,"{""mandatory"": 20.04}"
+961ac7ad,2026-04-18 23:05,EXPENSE,food,45.00 UAH,non_mandatory,"{""mandatory"": 45.0}"
+2cf142a6,2026-04-18 23:06,EXPENSE,taxi,360.00 UAH,non_mandatory,"{""mandatory"": 360.0}"
+327bbd58,2026-04-18 23:06,EXPENSE,entertainment,940.00 UAH,non_mandatory,"{""mandatory"": 940.0}"
+0d660ad1,2026-04-18 23:06,EXPENSE,taxi,163.00 UAH,non_mandatory,"{""mandatory"": 163.0}"
+287c90b6,2026-04-20 10:31,EXPENSE,taxi,183.00 UAH,non_mandatory,"{""mandatory"": 183.0}"
+4d9764da,2026-04-20 10:32,EXPENSE,food,1403.00 UAH,non_mandatory,"{""mandatory"": 1403.0}"
+6a946024,2026-04-20 10:32,EXPENSE,food,264.00 UAH,non_mandatory,"{""mandatory"": 264.0}"
+a4873579,2026-04-20 10:32,EXPENSE,taxi,224.00 UAH,non_mandatory,"{""mandatory"": 224.0}"
+eef8a7c9,2026-04-20 10:33,EXPENSE,food,771.00 UAH,non_mandatory,"{""mandatory"": 771.0}"
+de0b4f03,2026-04-20 10:33,EXPENSE,groceries,1064.88 UAH,mandatory,OK
+c7be362f,2026-04-20 10:34,EXPENSE,charity,80.00 UAH,non_mandatory,"{""mandatory"": 80.0}"
+ab6c33a9,2026-04-20 10:34,EXPENSE,taxi,143.00 UAH,non_mandatory,"{""mandatory"": 143.0}"
+3b67a3de,2026-04-20 10:34,EXPENSE,taxi,141.00 UAH,non_mandatory,"{""mandatory"": 141.0}"
+35c45307,2026-04-20 10:34,EXPENSE,groceries,431.60 UAH,mandatory,OK
+f0e4124b,2026-04-20 10:34,EXPENSE,family,400.00 UAH,mandatory,OK
+bc94f629,2026-04-20 10:35,EXPENSE,entertainment,765.00 UAH,non_mandatory,"{""mandatory"": 765.0}"
+05f1a735,2026-04-21 10:44,EXPENSE,groceries,235.28 UAH,mandatory,OK
+ba36a374,2026-04-21 10:44,EXPENSE,taxi,137.00 UAH,non_mandatory,"{""mandatory"": 137.0}"
+c2214929,2026-04-21 10:44,EXPENSE,entertainment,565.00 UAH,non_mandatory,"{""mandatory"": 565.0}"
+422895b6,2026-04-21 10:44,EXPENSE,taxi,137.00 UAH,non_mandatory,"{""mandatory"": 137.0}"
+32b80e65,2026-04-21 10:45,EXPENSE,healthcare,216.00 UAH,mandatory,OK
+64461a1a,2026-04-21 19:02,EXPENSE,housing,2219.00 UAH,mandatory,"{""investments"": 870.81}"
+68d7ceb6,2026-04-21 19:02,EXPENSE,groceries,1036.84 UAH,mandatory,"{""investments"": 1036.84}"
+763a019e,2026-04-22 19:55,EXPENSE,groceries,525.80 UAH,mandatory,"{""investments"": 525.8}"
+bcaa9e73,2026-04-22 19:55,EXPENSE,taxi,135.00 UAH,non_mandatory,"{""investments"": 135.0}"
+fd405480,2026-04-22 19:55,EXPENSE,entertainment,840.00 UAH,non_mandatory,"{""investments"": 840.0}"
+de2da47b,2026-04-22 19:55,EXPENSE,taxi,143.00 UAH,non_mandatory,"{""investments"": 143.0}"
+df93a45b,2026-04-22 19:56,EXPENSE,family,300.00 UAH,mandatory,"{""investments"": 300.0}"
+fc37c48b,2026-04-22 19:56,EXPENSE,groceries,104.39 UAH,mandatory,"{""investments"": 104.39}"
+e5e2f6e0,2026-04-22 19:56,EXPENSE,groceries,47.00 UAH,mandatory,"{""investments"": 47.0}"
+45cbceab,2026-04-22 19:56,EXPENSE,food,169.00 UAH,non_mandatory,"{""investments"": 169.0}"
+14eb726b,2026-04-22 19:57,SYNC,Adjustment,-130.13 UAH,Balance Sync,OK
+0c5ea243,2026-04-23 12:55,EXPENSE,taxi,137.00 UAH,non_mandatory,"{""investments"": 137.0}"
+77f21376,2026-04-23 12:55,EXPENSE,entertainment,840.00 UAH,non_mandatory,"{""investments"": 840.0}"
+d9b79381,2026-04-23 12:55,EXPENSE,taxi,137.00 UAH,non_mandatory,"{""investments"": 137.0}"
+13075bc0,2026-04-23 12:55,EXPENSE,family,400.00 UAH,mandatory,"{""investments"": 400.0}"
+c0ffa311,2026-04-23 12:56,EXPENSE,groceries,1563.28 UAH,mandatory,"{""investments"": 815.17, ""dreams"": 748.11}"
+7b5b6bd8,2026-04-23 21:44,EXPENSE,phone,300.00 UAH,mandatory,"{""dreams"": 300.0}"
+d1e00536,2026-04-23 21:44,EXPENSE,taxi,143.00 UAH,non_mandatory,"{""dreams"": 143.0}"
+7eb2700f,2026-04-23 21:44,EXPENSE,entertainment,700.00 UAH,non_mandatory,"{""dreams"": 700.0}"
+dad1db06,2026-04-23 21:44,EXPENSE,taxi,143.00 UAH,non_mandatory,"{""dreams"": 143.0}"
+11cf91b5,2026-04-23 21:45,EXPENSE,food,864.00 UAH,non_mandatory,"{""dreams"": 864.0}"
+8fc7a63d,2026-04-23 21:45,EXPENSE,subscriptions,403.38 UAH,non_mandatory,"{""dreams"": 403.38}"
+7ee46dc2,2026-04-24 22:53,EXPENSE,groceries,387.59 UAH,mandatory,"{""dreams"": 387.59}"
+14b24cdc,2026-04-24 22:53,EXPENSE,food,264.00 UAH,non_mandatory,"{""dreams"": 264.0}"
+58f3f88e,2026-04-24 22:53,EXPENSE,food,175.00 UAH,non_mandatory,"{""dreams"": 175.0}"
+fd865d62,2026-04-24 22:53,EXPENSE,food,777.00 UAH,non_mandatory,"{""dreams"": 777.0}"
+af050c37,2026-04-24 22:53,EXPENSE,taxi,149.00 UAH,non_mandatory,"{""dreams"": 149.0}"
+75d98db4,2026-04-24 22:54,EXPENSE,entertainment,847.00 UAH,non_mandatory,"{""dreams"": 847.0}"
+76cf6fed,2026-04-24 22:54,EXPENSE,taxi,151.00 UAH,non_mandatory,"{""dreams"": 151.0}"
+15f88996,2026-04-26 13:19,EXPENSE,food,269.00 UAH,non_mandatory,"{""dreams"": 269.0}"
+a7a1b62b,2026-04-26 13:19,EXPENSE,groceries,64.20 UAH,mandatory,"{""dreams"": 64.2}"
+bea1d0a1,2026-04-26 13:19,EXPENSE,taxi,271.00 UAH,non_mandatory,"{""dreams"": 271.0}"
+0051b8eb,2026-04-26 13:19,EXPENSE,food,549.00 UAH,non_mandatory,"{""dreams"": 549.0}"
+89ab472c,2026-04-26 13:19,EXPENSE,food,49.00 UAH,non_mandatory,"{""dreams"": 49.0}"
+7682cd77,2026-04-26 13:20,EXPENSE,shopping,1609.00 UAH,non_mandatory,"{""dreams"": 1609.0}"
+5675affc,2026-04-26 13:20,EXPENSE,shopping,359.00 UAH,non_mandatory,"{""dreams"": 359.0}"
+67cb30f1,2026-04-26 13:21,EXPENSE,taxi,261.00 UAH,non_mandatory,"{""dreams"": 261.0}"
+34158946,2026-04-26 13:21,EXPENSE,taxi,145.00 UAH,non_mandatory,"{""dreams"": 145.0}"
+e811aea6,2026-04-26 13:21,EXPENSE,taxi,3.00 UAH,non_mandatory,"{""dreams"": 3.0}"
+4eecc007,2026-04-26 13:21,EXPENSE,entertainment,770.00 UAH,non_mandatory,"{""dreams"": 770.0}"
+6fb06072,2026-04-26 13:21,EXPENSE,taxi,195.00 UAH,non_mandatory,"{""dreams"": 195.0}"
+162f007c,2026-04-26 13:21,EXPENSE,food,380.00 UAH,non_mandatory,"{""dreams"": 380.0}"
+ce71afc3,2026-04-27 13:45,EXPENSE,taxi,143.00 UAH,non_mandatory,"{""dreams"": 143.0}"
+d16112bc,2026-04-27 13:45,EXPENSE,groceries,1008.00 UAH,mandatory,"{""dreams"": 1008.0}"
+1fed6edc,2026-04-27 13:45,EXPENSE,entertainment,770.00 UAH,non_mandatory,"{""dreams"": 770.0}"
+512b8f93,2026-04-27 13:45,EXPENSE,taxi,141.00 UAH,non_mandatory,"{""dreams"": 141.0}"
+ae3440dc,2026-04-27 13:45,EXPENSE,groceries,275.84 UAH,mandatory,"{""dreams"": 275.84}"
+34bed15c,2026-04-27 13:46,EXPENSE,food,541.00 UAH,non_mandatory,"{""dreams"": 541.0}"
+f83329b8,2026-04-27 13:46,EXPENSE,groceries,1339.98 UAH,mandatory,"{""dreams"": 1339.98}"
+808a17ef,2026-04-27 13:46,EXPENSE,housing,240.00 UAH,mandatory,"{""dreams"": 240.0}"
+322403cb,2026-05-08 07:44,SYNC,Adjustment,-5984.67 UAH,Balance Sync,OK
+cc7e383b,2026-05-10 15:20,SYNC,Adjustment,136.83 UAH,Balance Sync,OK
+3882310e,2026-05-11 08:14,INCOME,Total,550.00 UAH,Distributed,OK
+4a640c1b,2026-05-11 08:14,EXPENSE,entertainment,460.00 UAH,non_mandatory,"{""mandatory"": 275.0, ""investments"": 20.0}"
+cf91a11a,2026-05-11 08:14,EXPENSE,taxi,259.00 UAH,non_mandatory,"{""investments"": 35.0, ""dreams"": 224.0}"
+774842ef,2026-05-11 08:15,EXPENSE,groceries,137.40 UAH,mandatory,"{""dreams"": 137.4}"
+e7706a88,2026-05-11 10:35,INCOME,Total,2752.00 USD (120688.96 UAH),Distributed,OK
+f79dbdd6,2026-05-11 10:36,EXPENSE,debt_payment,11000.00 UAH,mandatory,OK
+51af7a35,2026-05-11 10:37,EXPENSE,housing,10000.00 UAH,mandatory,OK
+9fd2e0c4,2026-05-11 10:41,EXPENSE,education,16800.00 UAH,mandatory,OK
+db54fa45,2026-05-11 11:03,EXPENSE,family,2500.00 UAH,mandatory,OK
+55ffe097,2026-05-11 11:21,EXPENSE,phone,350.00 UAH,mandatory,OK
+d5d90297,2026-05-11 11:22,EXPENSE,hobbies,255.00 UAH,mandatory,OK
+a8c3debd,2026-05-11 11:22,EXPENSE,groceries,230.43 UAH,mandatory,OK
+59006e62,2026-05-11 11:22,EXPENSE,family,400.00 UAH,mandatory,OK
+eee4a2e2,2026-05-11 11:29,EXPENSE,groceries,1271.13 UAH,mandatory,OK
+630b9750,2026-05-11 15:06,EXPENSE,groceries,240.00 UAH,mandatory,OK
+087d36e5,2026-05-11 18:45,EXPENSE,subscriptions,879.17 UAH,non_mandatory,OK
+16ec2945,2026-05-11 18:51,EXPENSE,gifts,1829.00 UAH,non_mandatory,OK
+5e427b65,2026-05-11 22:05,EXPENSE,taxi,135.00 UAH,non_mandatory,OK
+fd2af971,2026-05-11 22:05,EXPENSE,taxi,137.00 UAH,non_mandatory,OK
+6714f062,2026-05-11 22:05,EXPENSE,entertainment,640.00 UAH,non_mandatory,OK
+52f180ec,2026-05-12 14:41,EXPENSE,gifts,300.00 UAH,non_mandatory,OK
+c39001d0,2026-05-12 14:41,EXPENSE,food,88.00 UAH,non_mandatory,OK
+e4565b4c,2026-05-12 14:41,EXPENSE,taxi,170.00 UAH,non_mandatory,OK
+e74de62b,2026-05-12 14:41,EXPENSE,taxi,161.00 UAH,non_mandatory,OK
+4381a790,2026-05-12 14:42,EXPENSE,family,1300.00 UAH,mandatory,OK
+8c8d50ff,2026-05-12 14:42,EXPENSE,taxi,175.00 UAH,non_mandatory,OK
+c0fb81ff,2026-05-12 14:42,EXPENSE,food,30.00 UAH,non_mandatory,OK
+434ae57e,2026-05-12 14:42,EXPENSE,gifts,2400.00 UAH,non_mandatory,OK
+e3406d12,2026-05-12 14:42,EXPENSE,taxi,190.00 UAH,non_mandatory,OK
+59e92d48,2026-05-12 15:16,EXPENSE,food,169.00 UAH,non_mandatory,OK
+afed4fab,2026-05-12 18:12,EXPENSE,internet,399.00 UAH,mandatory,OK
+2a400bc9,2026-05-13 08:06,EXPENSE,utilities,159.26 UAH,mandatory,OK
+c86e1343,2026-05-13 08:06,EXPENSE,hobbies,300.00 UAH,mandatory,OK
+80917534,2026-05-13 08:07,EXPENSE,groceries,241.90 UAH,mandatory,OK
+42d4d7bb,2026-05-13 08:07,EXPENSE,hobbies,250.00 UAH,mandatory,OK
+0154e54c,2026-05-13 08:07,EXPENSE,groceries,59.50 UAH,mandatory,OK
+69f4541f,2026-05-13 08:08,SYNC,Adjustment,-167.34 UAH,Balance Sync,OK
+f7047bb3,2026-05-13 08:54,EXPENSE,utilities,158.30 UAH,mandatory,OK
+4ec4355a,2026-05-13 11:42,EXPENSE,debt_payment,110.50 UAH,mandatory,OK
+385a5dc0,2026-05-13 13:37,EXPENSE,food,299.00 UAH,non_mandatory,OK
+bda1baf4,2026-05-13 13:37,EXPENSE,groceries,113.65 UAH,mandatory,OK
+9470703a,2026-05-13 17:39,EXPENSE,utilities,79.14 UAH,mandatory,OK
+4c5563bd,2026-05-13 22:17,EXPENSE,groceries,434.10 UAH,mandatory,OK
+2b50d89c,2026-05-13 22:17,EXPENSE,entertainment,770.00 UAH,non_mandatory,OK
+07281c02,2026-05-14 10:54,EXPENSE,groceries,331.07 UAH,mandatory,"{""non_mandatory"": 163.93}"
+f6dca9bd,2026-05-14 10:55,EXPENSE,food,319.00 UAH,non_mandatory,OK
+17d1a2cd,2026-05-14 10:55,SYNC,Adjustment,-25.28 UAH,Balance Sync,OK
+1371d73a,2026-05-14 10:56,EXPENSE,dreams,8500.00 UAH,dreams,OK
+e96b0b37,2026-05-14 14:06,EXPENSE,investments,5000.00 UAH,investments,OK
+700d1481,2026-05-14 14:07,EXPENSE,food,1740.16 UAH,non_mandatory,OK
+9a47f3ba,2026-05-14 14:08,EXPENSE,beauty,600.00 UAH,non_mandatory,OK
+ed1c9228,2026-05-14 14:09,EXPENSE,groceries,79.20 UAH,mandatory,OK
+7a874dc2,2026-05-14 21:58,EXPENSE,groceries,318.39 UAH,mandatory,OK
+328188db,2026-05-15 15:34,EXPENSE,food,319.00 UAH,non_mandatory,OK
+730cc0b4,2026-05-16 09:48,EXPENSE,food,88.00 UAH,non_mandatory,OK
+a098d4d1,2026-05-16 09:48,EXPENSE,food,928.00 UAH,non_mandatory,OK
+93f3af3b,2026-05-16 09:48,EXPENSE,entertainment,174.00 UAH,non_mandatory,OK
+28159420,2026-05-17 14:12,EXPENSE,food,126.00 UAH,non_mandatory,OK
+aa3f896e,2026-05-17 14:12,EXPENSE,healthcare,100.00 UAH,mandatory,OK
+e74df573,2026-05-17 14:12,EXPENSE,groceries,163.85 UAH,mandatory,OK
+838010d1,2026-05-17 14:12,EXPENSE,food,214.00 UAH,non_mandatory,OK
+132ff73c,2026-05-17 14:13,EXPENSE,taxi,260.00 UAH,non_mandatory,OK
+2e254155,2026-05-17 14:13,EXPENSE,entertainment,1469.00 UAH,non_mandatory,OK
+bf9dac48,2026-05-17 14:13,EXPENSE,taxi,255.00 UAH,non_mandatory,OK
+075e0efa,2026-05-17 14:13,EXPENSE,groceries,363.40 UAH,mandatory,OK
+2efaa092,2026-05-17 14:13,EXPENSE,food,1541.00 UAH,non_mandatory,OK
+63b7ccb3,2026-05-17 14:13,EXPENSE,entertainment,772.75 UAH,non_mandatory,OK
+b9fc65e4,2026-05-17 14:14,EXPENSE,groceries,449.27 UAH,mandatory,OK
+e23eb0d3,2026-05-17 14:14,EXPENSE,family,500.00 UAH,mandatory,OK
+c947c5cc,2026-05-17 14:14,EXPENSE,groceries,1819.53 UAH,mandatory,OK
+e3e56d9b,2026-05-17 14:14,EXPENSE,food,214.00 UAH,non_mandatory,OK
+08f24f6c,2026-05-17 14:15,EXPENSE,taxi,270.00 UAH,non_mandatory,OK
+513a52d9,2026-05-17 14:15,EXPENSE,entertainment,450.00 UAH,non_mandatory,OK
+6be7456f,2026-05-17 14:15,EXPENSE,taxi,355.00 UAH,non_mandatory,OK
+3772b123,2026-05-18 18:25,EXPENSE,food,645.00 UAH,non_mandatory,OK
+1581850c,2026-05-18 18:25,EXPENSE,taxi,230.00 UAH,non_mandatory,OK
+9ff0b657,2026-05-18 18:25,EXPENSE,entertainment,300.00 UAH,non_mandatory,OK
+ef8f8230,2026-05-18 18:25,EXPENSE,subscriptions,660.18 UAH,non_mandatory,OK
+0d18ad9d,2026-05-18 18:25,EXPENSE,family,400.00 UAH,mandatory,OK
+623a76e6,2026-05-18 18:26,SYNC,Adjustment,875.31 UAH,Balance Sync,OK
+942948e2,2026-05-18 21:58,EXPENSE,food,461.00 UAH,non_mandatory,OK
+07b28fbf,2026-05-18 22:38,EXPENSE,subscriptions,1059.82 UAH,non_mandatory,OK
+396ed64d,2026-05-19 14:42,EXPENSE,food,143.00 UAH,non_mandatory,OK
+055f6bef,2026-05-19 14:42,EXPENSE,healthcare,180.00 UAH,mandatory,OK
+08f118a6,2026-05-19 14:43,EXPENSE,groceries,459.90 UAH,mandatory,OK
+7bc2153d,2026-05-19 14:43,EXPENSE,groceries,265.00 UAH,mandatory,OK
+fd7545a3,2026-05-19 14:43,EXPENSE,groceries,68.50 UAH,mandatory,OK
+35b46876,2026-05-20 09:14,EXPENSE,taxi,220.00 UAH,non_mandatory,OK
+c3593368,2026-05-20 09:14,EXPENSE,entertainment,290.00 UAH,non_mandatory,OK
+cde2985f,2026-05-20 09:14,EXPENSE,groceries,141.70 UAH,mandatory,OK
+ef0ad007,2026-05-20 09:15,EXPENSE,family,570.00 UAH,mandatory,OK
+22b60c0f,2026-05-20 09:34,EXPENSE,groceries,1278.61 UAH,mandatory,OK
+8b5fbf21,2026-05-20 16:34,EXPENSE,groceries,195.64 UAH,mandatory,OK
+da15c5bd,2026-05-20 16:34,EXPENSE,taxi,207.00 UAH,non_mandatory,OK
+cfdf26ca,2026-05-20 16:34,EXPENSE,housing,1122.00 UAH,mandatory,OK
+85dff7b2,2026-05-20 16:34,EXPENSE,taxi,216.00 UAH,non_mandatory,OK
+698ab17e,2026-05-20 16:35,EXPENSE,housing,145.00 UAH,mandatory,OK
+f187a296,2026-05-20 21:49,EXPENSE,entertainment,250.00 UAH,non_mandatory,OK
+ed89d18a,2026-05-20 21:50,EXPENSE,taxi,200.00 UAH,non_mandatory,OK
+d6e05b0a,2026-05-20 21:50,EXPENSE,entertainment,640.00 UAH,non_mandatory,OK
+df873fe7,2026-05-20 21:50,EXPENSE,taxi,151.00 UAH,non_mandatory,OK
+cbe6fd79,2026-05-21 17:23,EXPENSE,healthcare,100.00 UAH,mandatory,OK
+91578e0a,2026-05-21 17:23,EXPENSE,groceries,368.00 UAH,mandatory,OK
+9321c1e3,2026-05-21 17:23,EXPENSE,food,204.00 UAH,non_mandatory,OK
+9ffdc6a0,2026-05-21 17:23,EXPENSE,groceries,344.19 UAH,mandatory,OK
+6aa340ce,2026-05-21 17:24,EXPENSE,groceries,154.96 UAH,mandatory,OK
+2c6117c3,2026-05-21 17:34,EXPENSE,investments,2330.22 UAH,investments,OK
+91ed013e,2026-05-22 11:48,EXPENSE,groceries,157.20 UAH,mandatory,OK
+105708ae,2026-05-22 11:49,EXPENSE,groceries,348.99 UAH,mandatory,OK
+c24228bd,2026-05-22 11:49,EXPENSE,groceries,611.02 UAH,mandatory,OK
+67f48f72,2026-05-22 16:22,EXPENSE,housing,240.00 UAH,mandatory,OK
+44104de1,2026-05-22 21:45,EXPENSE,groceries,82.20 UAH,mandatory,OK
+bec75eac,2026-05-23 13:29,EXPENSE,food,299.00 UAH,non_mandatory,OK
+59035666,2026-05-23 13:30,EXPENSE,healthcare,100.00 UAH,mandatory,OK
+35003a5e,2026-05-23 13:30,EXPENSE,groceries,60.00 UAH,mandatory,OK
+f3f4d565,2026-05-23 19:29,EXPENSE,food,435.00 UAH,non_mandatory,OK
+9fe06d1f,2026-05-23 19:29,EXPENSE,family,300.00 UAH,mandatory,OK
+4149a6af,2026-05-23 19:29,EXPENSE,groceries,124.70 UAH,mandatory,OK
+b65e78e3,2026-05-25 08:29,EXPENSE,food,737.00 UAH,non_mandatory,OK
+a0e71e0a,2026-05-25 08:29,EXPENSE,entertainment,615.00 UAH,non_mandatory,OK
+48b40ef0,2026-05-25 08:30,EXPENSE,taxi,300.00 UAH,non_mandatory,OK
+e5ce4fc1,2026-05-25 08:30,EXPENSE,entertainment,1909.00 UAH,non_mandatory,OK
+209e93d4,2026-05-25 08:30,EXPENSE,taxi,273.00 UAH,non_mandatory,OK
+69b60db7,2026-05-25 08:30,EXPENSE,entertainment,55.00 UAH,non_mandatory,OK
+ca4ffd6a,2026-05-25 08:30,EXPENSE,entertainment,160.00 UAH,non_mandatory,OK
+c09b40ab,2026-05-25 08:30,EXPENSE,entertainment,80.00 UAH,non_mandatory,OK
+cefd803b,2026-05-25 08:31,EXPENSE,entertainment,141.70 UAH,non_mandatory,OK
+1bd278a7,2026-05-25 08:31,EXPENSE,groceries,1227.86 UAH,mandatory,OK
+2b30901e,2026-05-25 08:31,EXPENSE,groceries,50.70 UAH,mandatory,OK
+34c4f297,2026-05-25 08:31,EXPENSE,groceries,160.80 UAH,mandatory,OK
+1d7fd4bc,2026-05-25 08:32,SYNC,Adjustment,-93.28 UAH,Balance Sync,OK
+81001276,2026-05-25 18:52,EXPENSE,food,226.00 UAH,non_mandatory,OK
+acdff200,2026-05-27 09:21,EXPENSE,food,530.00 UAH,non_mandatory,OK
+37b746c6,2026-05-27 09:21,EXPENSE,entertainment,615.00 UAH,non_mandatory,OK
+63ea614b,2026-05-27 09:22,EXPENSE,food,172.90 UAH,non_mandatory,OK
+c1056b17,2026-05-27 09:22,EXPENSE,food,207.00 UAH,non_mandatory,OK
+e8b98662,2026-05-27 09:22,EXPENSE,entertainment,265.00 UAH,non_mandatory,OK
+1cb8e593,2026-05-27 09:23,EXPENSE,food,1025.43 UAH,non_mandatory,OK
+a5c512e1,2026-05-27 19:39,EXPENSE,healthcare,170.00 UAH,mandatory,OK
+9b92c3ea,2026-05-27 19:39,EXPENSE,entertainment,250.00 UAH,non_mandatory,OK
+bbad0b17,2026-05-28 12:20,EXPENSE,food,311.00 UAH,non_mandatory,OK
+4b16b2ad,2026-05-29 11:17,EXPENSE,food,614.97 UAH,non_mandatory,OK
+10591584,2026-05-29 11:17,EXPENSE,entertainment,700.00 UAH,non_mandatory,OK
+cd6f319a,2026-05-29 20:48,EXPENSE,food,311.00 UAH,non_mandatory,OK
+92e13099,2026-05-29 21:12,EXPENSE,food,852.90 UAH,non_mandatory,OK
+ad93b737,2026-06-01 18:45,SYNC,Adjustment,-7330.46 UAH,Balance Sync,OK
+24109723,2026-06-08 12:19,INCOME,Total,2752.00 USD (122074.04 UAH),Distributed,OK
+3542ccd0,2026-06-08 12:19,EXPENSE,family,2000.00 UAH,mandatory,OK
+45639fe2,2026-06-08 12:19,EXPENSE,housing,10000.00 UAH,mandatory,OK
+d4b4ac8c,2026-06-08 12:19,EXPENSE,debt_payment,11000.00 UAH,mandatory,OK
+928e8e3b,2026-06-08 12:19,EXPENSE,debt_payment,2300.00 UAH,mandatory,OK
+1d3e6cf3,2026-06-08 12:20,SYNC,Adjustment,-2713.25 UAH,Balance Sync,OK
+d6cc39e2,2026-06-08 12:22,EXPENSE,groceries,947.47 UAH,mandatory,OK
+18ea5aea,2026-06-08 15:27,EXPENSE,subscriptions,160.25 UAH,non_mandatory,OK
+272aca55,2026-06-08 15:27,EXPENSE,subscriptions,160.25 UAH,non_mandatory,OK
+38759a13,2026-06-08 15:27,EXPENSE,subscriptions,160.25 UAH,non_mandatory,OK
+f76ca69a,2026-06-09 11:08,EXPENSE,groceries,489.62 UAH,mandatory,OK
+d1d4b722,2026-06-09 11:08,EXPENSE,groceries,165.00 UAH,mandatory,OK
+7f94cf97,2026-06-09 11:08,EXPENSE,subscriptions,160.25 UAH,non_mandatory,OK
+5eba03f8,2026-06-09 11:08,EXPENSE,subscriptions,80.12 UAH,non_mandatory,OK
+ea0acb54,2026-06-09 11:09,EXPENSE,taxes,12140.00 UAH,mandatory,OK
+99cd8b71,2026-06-09 11:09,EXPENSE,taxes,3805.00 UAH,mandatory,OK
+fb8b207b,2026-06-09 11:09,EXPENSE,taxes,2430.00 UAH,mandatory,OK
+9f4489e9,2026-06-09 14:10,EXPENSE,subscriptions,311.59 UAH,non_mandatory,OK
+d81ab6e1,2026-06-10 11:46,EXPENSE,taxi,205.00 UAH,non_mandatory,OK
+538af708,2026-06-10 11:46,EXPENSE,entertainment,240.00 UAH,non_mandatory,OK
+4cc08599,2026-06-10 11:46,EXPENSE,groceries,219.00 UAH,mandatory,OK
+d2afc5b6,2026-06-10 11:47,EXPENSE,entertainment,250.00 UAH,non_mandatory,OK
+35a85b5f,2026-06-10 11:47,EXPENSE,food,226.00 UAH,non_mandatory,OK
+b241d1cf,2026-06-10 11:47,EXPENSE,groceries,157.55 UAH,mandatory,OK
+b1b26908,2026-06-11 14:08,EXPENSE,food,793.80 UAH,non_mandatory,OK
+bd66e93a,2026-06-11 14:08,EXPENSE,entertainment,621.00 UAH,non_mandatory,OK
+ea02f6d9,2026-06-11 14:08,EXPENSE,taxi,139.00 UAH,non_mandatory,OK
+fa9d1014,2026-06-11 14:08,EXPENSE,food,320.00 UAH,non_mandatory,OK
+5ad1472f,2026-06-11 14:08,EXPENSE,shopping,50.00 UAH,non_mandatory,OK
+c3456e20,2026-06-11 14:09,EXPENSE,family,264.00 UAH,mandatory,OK
+c236cb4a,2026-06-11 14:09,EXPENSE,family,716.84 UAH,mandatory,OK
+babf7f88,2026-06-11 14:09,EXPENSE,taxi,1500.00 UAH,non_mandatory,OK
+0cc765f1,2026-06-11 14:09,EXPENSE,taxi,162.00 UAH,non_mandatory,OK
+bdf102d8,2026-06-11 14:09,EXPENSE,food,120.00 UAH,non_mandatory,OK
+22eb0ebd,2026-06-11 14:10,EXPENSE,taxi,145.00 UAH,non_mandatory,OK
+bb847c7a,2026-06-11 14:10,EXPENSE,food,140.00 UAH,non_mandatory,OK
+006adfa4,2026-06-11 15:53,EXPENSE,groceries,301.68 UAH,mandatory,OK
+3fac68d2,2026-06-11 15:53,EXPENSE,subscriptions,161.73 UAH,non_mandatory,OK
+57d31997,2026-06-11 18:22,EXPENSE,subscriptions,161.73 UAH,non_mandatory,OK
+603b6adf,2026-06-11 18:22,EXPENSE,subscriptions,399.00 UAH,non_mandatory,OK
+575c8ec9,2026-06-12 12:01,EXPENSE,subscriptions,904.81 UAH,non_mandatory,OK
+f8d547cc,2026-06-12 12:01,EXPENSE,healthcare,218.60 UAH,mandatory,OK
+d3d500a5,2026-06-12 12:02,EXPENSE,entertainment,700.00 UAH,non_mandatory,OK
+4d2f02db,2026-06-12 12:02,EXPENSE,taxi,159.00 UAH,non_mandatory,OK
+de0c01ae,2026-06-12 12:02,EXPENSE,subscriptions,88.95 UAH,non_mandatory,OK
+3ef318d0,2026-06-12 12:02,EXPENSE,food,274.00 UAH,non_mandatory,OK
+84a85ea2,2026-06-12 12:03,EXPENSE,groceries,976.30 UAH,mandatory,OK
+00306f23,2026-06-12 12:03,EXPENSE,subscriptions,161.73 UAH,non_mandatory,OK
+abdd993b,2026-06-12 17:16,EXPENSE,food,95.00 UAH,non_mandatory,OK
+5be138ce,2026-06-12 21:22,EXPENSE,housing,80.00 UAH,mandatory,OK
+c2c94c6c,2026-06-12 21:22,EXPENSE,food,775.70 UAH,non_mandatory,OK
+5b8b9649,2026-06-14 16:26,EXPENSE,entertainment,840.00 UAH,non_mandatory,OK
+1bf94645,2026-06-14 16:26,EXPENSE,taxi,187.00 UAH,non_mandatory,OK
+d949de11,2026-06-14 16:27,EXPENSE,phone,275.00 UAH,mandatory,OK
+734ffa28,2026-06-14 16:27,EXPENSE,food,199.00 UAH,non_mandatory,OK
+422392f1,2026-06-14 16:27,EXPENSE,family,250.00 UAH,mandatory,OK
+921719f3,2026-06-14 16:27,EXPENSE,food,226.00 UAH,non_mandatory,OK
+22b2d7bc,2026-06-14 16:27,EXPENSE,taxi,265.00 UAH,non_mandatory,OK
+3f9398a8,2026-06-14 16:27,EXPENSE,entertainment,840.00 UAH,non_mandatory,OK
+e83cccff,2026-06-14 16:28,EXPENSE,food,244.00 UAH,non_mandatory,OK
+60abe7a7,2026-06-14 16:28,EXPENSE,food,379.00 UAH,non_mandatory,OK
+5c2bea97,2026-06-14 16:28,EXPENSE,food,220.00 UAH,non_mandatory,OK
+94b4847a,2026-06-14 16:28,EXPENSE,food,45.00 UAH,non_mandatory,OK
+c1eb4a52,2026-06-14 16:28,EXPENSE,food,344.00 UAH,non_mandatory,OK
+229ec91f,2026-06-14 16:28,EXPENSE,taxi,331.00 UAH,non_mandatory,OK
+20a5d9b4,2026-06-14 16:28,EXPENSE,food,84.50 UAH,non_mandatory,OK
+691d2d12,2026-06-14 16:29,EXPENSE,food,217.00 UAH,non_mandatory,OK
+f5b4b1be,2026-06-14 16:29,EXPENSE,shopping,927.00 UAH,non_mandatory,OK
+35efa633,2026-06-14 16:29,EXPENSE,food,236.00 UAH,non_mandatory,OK
+4c11e785,2026-06-14 16:29,EXPENSE,food,437.00 UAH,non_mandatory,OK
+b8e825a1,2026-06-14 16:29,EXPENSE,taxi,219.00 UAH,non_mandatory,OK
+da8a6185,2026-06-14 16:29,EXPENSE,groceries,470.12 UAH,mandatory,OK
+100a8d22,2026-06-14 16:30,EXPENSE,subscriptions,161.33 UAH,non_mandatory,OK
+678952ff,2026-06-14 16:30,EXPENSE,groceries,1723.95 UAH,mandatory,OK
+bbb25ee3,2026-06-15 10:38,EXPENSE,taxi,123.00 UAH,non_mandatory,OK
+a2ca0b3c,2026-06-15 10:39,EXPENSE,family,200.00 UAH,mandatory,OK
+cdda25ff,2026-06-15 10:39,EXPENSE,entertainment,704.00 UAH,non_mandatory,OK
+4a76b49e,2026-06-15 10:39,EXPENSE,taxi,121.00 UAH,non_mandatory,OK
+ae89663a,2026-06-15 10:39,EXPENSE,groceries,84.50 UAH,mandatory,OK
+756761b6,2026-06-15 13:06,EXPENSE,subscriptions,161.33 UAH,non_mandatory,OK
+b051e2a9,2026-06-15 21:09,EXPENSE,dreams,3200.00 UAH,dreams,OK
+0f2e04c5,2026-06-15 21:31,EXPENSE,dreams,3200.00 UAH,dreams,OK
+ed693f42,2026-06-16 12:51,INCOME,Total,1763.78 UAH,Distributed,OK
+ca4e70d2,2026-06-16 12:51,EXPENSE,healthcare,535.00 UAH,mandatory,OK
+25394f9b,2026-06-16 12:51,EXPENSE,food,188.00 UAH,non_mandatory,OK
+1f4e76de,2026-06-16 12:51,EXPENSE,gifts,1340.00 UAH,non_mandatory,OK
+6edc9608,2026-06-16 14:07,EXPENSE,food,84.50 UAH,non_mandatory,OK
+94e4ed0f,2026-09-02 16:25,SYNC,Adjustment,-42697.99 UAH,Balance Sync,OK
+023dea3c,2026-09-02 16:26,INCOME,Total,1200.00 USD (53531.16 UAH),Distributed,OK
+9e220078,2026-09-02 18:26,INCOME,Total,7857.29 UAH,Distributed,OK
+dc47d2c7,2026-09-02 18:27,EXPENSE,entertainment,4450.00 UAH,non_mandatory,OK
